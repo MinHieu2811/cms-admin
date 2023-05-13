@@ -37,7 +37,7 @@ export const TopBar = () => {
 
   const showDrawer = useBreakpointValue({
     base: true,
-    [theme.layout.breakpoints.desktop]: false,
+    [theme?.layout?.breakpoints?.desktop]: false,
   });
 
   return (

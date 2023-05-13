@@ -5,6 +5,7 @@ import { LayoutContext } from './LayoutContext';
 import { useAuthContext } from '@/src/services/auth/AuthContext';
 import { Viewport } from '../shared/Viewport';
 import { TopBar } from './Topbar';
+import { LoginModalInterceptor } from '@/src/services/auth/LoginModalInterceptor';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -14,7 +15,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isFocusMode, setIsFocusMode] = useState(false);
   const nav = useDisclosure();
   const { pathname } = useLocation();
-  const { isAuthenticated } = useAuthContext();
+  const res = useAuthContext();
 
   useEffect(() => {
     window?.scrollTo(0, 0);
@@ -33,10 +34,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <LayoutContext.Provider value={providerValue}>
       <Viewport>
-        {isAuthenticated && !isFocusMode && <TopBar />}
+        {res?.isAuthenticated && !isFocusMode && <TopBar />}
         <Flex flex="1" direction="column">
           {children}
         </Flex>
+        <LoginModalInterceptor />
       </Viewport>
     </LayoutContext.Provider>
   );
