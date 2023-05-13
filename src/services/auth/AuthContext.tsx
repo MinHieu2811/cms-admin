@@ -1,7 +1,7 @@
-'use client'
+
 import React, { useCallback, useContext, useState } from 'react';
 
-import { isBrowser } from '@/app/utils/checkBrowser';
+import { isBrowser } from '@/src/utils/checkBrowser';
 
 type AuthContextValue = {
   isAuthenticated: boolean;

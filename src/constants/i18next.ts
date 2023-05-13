@@ -1,4 +1,4 @@
-import locales from '@/app/locales';
+import locales from '@/src/locales';
 
 export type Language = {
   key: keyof typeof locales;

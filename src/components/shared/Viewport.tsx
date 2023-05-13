@@ -1,9 +1,9 @@
-'use client'
+
 import React, { useEffect } from 'react';
 
 import { Flex, FlexProps, useMediaQuery } from '@chakra-ui/react';
 
-import { isBrowser } from '@/app/utils/checkBrowser';
+import { isBrowser } from '@/src/utils/checkBrowser';
 
 const useFixViewport = () => {
   useEffect(() => {

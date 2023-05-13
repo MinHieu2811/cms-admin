@@ -1,4 +1,4 @@
-'use client'
+
 
 import { Flex, Progress } from "@chakra-ui/react";
 import ClientOnly from "./ClientOnly";

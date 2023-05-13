@@ -9,11 +9,10 @@ import { Layout } from '../components/layout';
 import { Suspense } from 'react';
 import { PageLogin } from '../auth/login/page';
 
-export const MainApp = () => {
+export const Mainsrc = () => {
   return (
     <ErrorBoundary>
       <ClientOnly>
-        <>Hello Word</>
         <BrowserRouter basename='/app'>
           <Layout>
             <Suspense>

@@ -1,4 +1,4 @@
-'use client'
+
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import React, { FC } from 'react';
 

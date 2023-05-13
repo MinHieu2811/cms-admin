@@ -1,13 +1,13 @@
-'use client'
+
 import React from 'react';
 
 import { Box, BoxProps, Stack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 
-import { useRtl } from '@/app/hooks/useRtl';
+import { useRtl } from '@/src/hooks/useRtl';
 // import { useAccount } from '@/spa/account/account.service';
-import { useLayoutContext } from '@/app/components/layout';
+import { useLayoutContext } from '@/src/components/layout';
 
 const MainMenuItem = ({ to, ...rest }: BoxProps & { to: string }) => {
   const { rtlValue } = useRtl();

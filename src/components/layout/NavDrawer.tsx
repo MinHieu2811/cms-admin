@@ -1,4 +1,4 @@
-'use client'
+
 
 import React from 'react';
 
@@ -11,9 +11,9 @@ import {
   DrawerOverlay,
 } from '@chakra-ui/react';
 
-import { Logo } from '@/app/components/Logo';
-import { useRtl } from '@/app/hooks/useRtl';
-import { MainMenu, useLayoutContext } from '@/app/components/layout';
+import { Logo } from '@/src/components/Logo';
+import { useRtl } from '@/src/hooks/useRtl';
+import { MainMenu, useLayoutContext } from '@/src/components/layout';
 
 export const NavDrawer = ({ ...rest }) => {
   const { navIsOpen, navOnClose } = useLayoutContext();

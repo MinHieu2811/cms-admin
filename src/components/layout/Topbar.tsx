@@ -1,4 +1,4 @@
-'use client'
+
 import React from 'react';
 
 import {
@@ -13,9 +13,9 @@ import {
 import { FiMenu } from 'react-icons/fi';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Logo } from '@/app/components/Logo';
-import { AccountMenu, MainMenu, useLayoutContext } from '@/app/components/layout';
-import { NavDrawer } from '@/app/components/layout/NavDrawer';
+import { Logo } from '@/src/components/Logo';
+import { AccountMenu, MainMenu, useLayoutContext } from '@/src/components/layout';
+import { NavDrawer } from '@/src/components/layout/NavDrawer';
 
 const MenuButton = (props: Partial<IconButtonProps>) => {
   const { navOnOpen } = useLayoutContext();

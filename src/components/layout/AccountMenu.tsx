@@ -27,7 +27,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 
 // import buildInfo from '@/../.build-info.json';
-import { Icon } from '@/app/components/Icons';
+import { Icon } from '@/src/components/Icons';
 // import { useAccount } from '@/spa/account/account.service';
 
 const AppVersion = ({ ...rest }) => {

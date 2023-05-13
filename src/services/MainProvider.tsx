@@ -1,4 +1,4 @@
-'use client';
+;
 import React from 'react';
 
 import { ChakraProvider } from '@chakra-ui/react';
@@ -6,8 +6,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { AuthProvider } from './auth/AuthContext';
 
-import '@/app/config';
-import { AVAILABLE_LANGUAGES } from '@/app/constants/i18next';
+import '@/src/config';
+import { AVAILABLE_LANGUAGES } from '@/src/constants/i18next';
 
 const queryClient = new QueryClient();
 

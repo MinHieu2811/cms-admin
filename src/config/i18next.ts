@@ -6,8 +6,8 @@ import {
   AVAILABLE_LANGUAGES,
   DEFAULT_LANGUAGE_KEY,
   DEFAULT_NAMESPACE,
-} from '@/app/constants/i18next';
-import locales from '@/app/locales';
+} from '@/src/constants/i18next';
+import locales from '@/src/locales';
 import { isBrowser } from '../utils/checkBrowser';
 
 dayjs.locale(DEFAULT_LANGUAGE_KEY);
