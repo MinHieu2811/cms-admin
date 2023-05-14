@@ -10,11 +10,14 @@ import { Suspense } from 'react';
 import { PageLogin } from '../auth/login/PageLogin';
 import { PageLogout } from '../auth/login/PageLogout';
 import { AuthenticatedRouteGuard } from './guard';
+import React from 'react';
+
+const LazyDashboardRoute = React.lazy(() => import('@/src/router/dashboard/DashboardRoutes'))
 
 export const MainApp = () => {
   return (
     <ErrorBoundary>
-      <ClientOnly>
+      {/* <ClientOnly> */}
         <BrowserRouter basename="/app">
           <Layout>
             <Suspense fallback={<Loader />}>
@@ -29,7 +32,7 @@ export const MainApp = () => {
                 path="dashboard/*"
                 element={
                   <AuthenticatedRouteGuard>
-                    {/* <DashboardRoutes /> */}
+                    <LazyDashboardRoute />
                   </AuthenticatedRouteGuard>
                 }
               />
@@ -37,7 +40,7 @@ export const MainApp = () => {
             </Suspense>
           </Layout>
         </BrowserRouter>
-      </ClientOnly>
+      {/* </ClientOnly> */}
     </ErrorBoundary>
   );
 };

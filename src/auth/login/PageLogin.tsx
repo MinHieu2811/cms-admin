@@ -1,9 +1,8 @@
-
 import React from 'react';
 
 import { Box, Button, Center, Heading } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom';
 
 import { SlideIn } from '@/src/components/SlideIn';
 import { Logo } from '@/src/components/Logo';
@@ -12,14 +11,13 @@ import { useRedirectFromUrl } from '@/src/utils/useRedirectFromUrl';
 import LoginForm from '@/src/components/LoginForm';
 
 export const PageLogin = () => {
-  const { t } = useTranslation(['auth'])
-  const queryCache = useQueryClient()
-  const redirect = useRedirectFromUrl()
+  const { t } = useTranslation(['auth']);
+  const queryCache = useQueryClient();
+  const redirect = useRedirectFromUrl();
 
   return (
     <SlideIn>
       <Box px="2" py="4rem" w="22rem" maxW="full" m="auto">
-        <Logo h="3rem" mb="8" mx="auto" />
         <Box
           p="6"
           borderRadius="md"
@@ -47,5 +45,5 @@ export const PageLogin = () => {
         </Center>
       </Box>
     </SlideIn>
-  )
-}
+  );
+};

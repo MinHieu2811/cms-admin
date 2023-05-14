@@ -5,6 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { AuthProvider } from './auth/AuthContext';
+import theme from '@/src/theme'
 
 import '@/src/config';
 import { AVAILABLE_LANGUAGES } from '@/src/constants/i18next';
@@ -22,6 +23,7 @@ export const MainProvider: React.FC<MainProvider> = ({ children }) => {
       <AuthProvider>
         <ChakraProvider
           theme={{
+            ...theme,
             direction:
               AVAILABLE_LANGUAGES?.find(({ key }) => key === i18n.language)
                 ?.dir ?? 'ltr',

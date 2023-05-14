@@ -1,15 +1,15 @@
+import React from 'react';
 
-import React from "react";
+import { Box, BoxProps, Button, Flex, Stack } from '@chakra-ui/react';
+import { Formiz, useForm } from '@formiz/core';
+import { Link as RouterLink } from 'react-router-dom';
 
-import { Box, BoxProps, Button, Flex, Stack } from "@chakra-ui/react";
-import { Formiz, useForm } from "@formiz/core";
-import { Link as RouterLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next';
+import { useToastError } from '../Toast';
+import { FieldInput } from '../FieldInput';
+import { FaGithub, FaGoogle } from 'react-icons/fa';
 
-import { useTranslation } from 'react-i18next'
-import { useToastError } from '../Toast'
-import { FieldInput } from '../FieldInput'
-
-interface LoginFormProps extends BoxProps {  };
+interface LoginFormProps extends BoxProps {}
 
 export const LoginForm: React.FC<LoginFormProps> = ({
   ...rest
@@ -18,9 +18,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   const form = useForm({ subscribe: 'form' });
   const toastError = useToastError();
 
-  const handleLogin = () => {
-
-  }
+  const handleLogin = () => {};
 
   return (
     <Box {...rest}>
@@ -42,6 +40,15 @@ export const LoginForm: React.FC<LoginFormProps> = ({
             label={t('auth:data.password.label')}
             required={t('auth:data.password.required') as string}
           />
+          <hr />
+          <Button size="md" variant="solid" whiteSpace="initial">
+            <FaGithub size={20} style={{ marginRight: '10px' }} /> Log in with
+            Github
+          </Button>
+          <Button size="md" variant="solid" whiteSpace="initial">
+            <FaGoogle size={20} style={{ marginRight: '10px' }} /> Log in with
+            Google
+          </Button>
           <Flex>
             <Button
               as={RouterLink}
@@ -68,4 +75,4 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   );
 };
 
-export default LoginForm
+export default LoginForm;

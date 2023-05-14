@@ -21,7 +21,7 @@ import LoginForm from '@/src/components/LoginForm';
 export const LoginModalInterceptor = () => {
   const { t } = useTranslation(['auth']);
   const loginModal = useDisclosure();
-  const { isAuthenticated, updateToken } = useAuthContext();
+  const authContext = useAuthContext();
   const queryCache = useQueryClient();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -46,14 +46,14 @@ export const LoginModalInterceptor = () => {
     );
 
     return () => Axios.interceptors.response.eject(interceptor);
-  }, [openLoginModal, updateToken, queryCache]);
+  }, [openLoginModal, authContext?.updateToken, queryCache]);
 
   useEffect(() => {
     if (loginModal.isOpen && pathname !== pathnameRef.current) {
-      updateToken(null);
+      authContext?.updateToken(null);
       loginModal.onClose();
     }
-  }, [loginModal, updateToken, pathname]);
+  }, [loginModal, authContext?.updateToken, pathname]);
 
   const handleLogin = () => {
     queryCache.refetchQueries();
@@ -61,14 +61,14 @@ export const LoginModalInterceptor = () => {
   };
 
   const handleClose = () => {
-    updateToken(null);
+    authContext?.updateToken(null);
     loginModal.onClose();
     navigate('/login');
   };
 
   return (
     <Modal
-      isOpen={loginModal.isOpen && isAuthenticated}
+      isOpen={loginModal.isOpen && authContext?.isAuthenticated}
       onClose={handleClose}
       closeOnOverlayClick={false}
       trapFocus={false}

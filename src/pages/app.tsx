@@ -20,14 +20,14 @@ const Loading = () => (
 );
 
 const AppComponent = dynamic<unknown>(
-  () => import('@/src/router/MainApp').then((mod) => mod.Mainsrc),
+  () => import('@/src/router/MainApp').then((mod) => mod.MainApp),
   {
     ssr: false,
     loading: () => <Loading />,
   }
 );
 
-const src = () => {
+const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setIsLoading(false);
@@ -35,4 +35,4 @@ const src = () => {
 
   return isLoading ? <Loading /> : <AppComponent />;
 };
-export default src;
+export default App;
