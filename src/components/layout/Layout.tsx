@@ -18,6 +18,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const res = useAuthContext();
 
   useEffect(() => {
+    document.title = 'Admin'
     window?.scrollTo(0, 0);
   }, [pathname]);
 

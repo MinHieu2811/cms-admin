@@ -25,24 +25,13 @@ export const PageLogin = () => {
           bg="white"
           _dark={{ bg: 'blackAlpha.400' }}
         >
-          <Heading size="md" mb="4" data-test="login-page-heading">
-            {t('auth:login.title')}
-          </Heading>
+          <Center>
+            <Heading size="md" mb="4" data-test="login-page-heading">
+              {t('auth:login.title')}
+            </Heading>
+          </Center>
           <LoginForm />
         </Box>
-        <Center mt="8">
-          <Button as={RouterLink} to="/account/register" variant="link">
-            {t('auth:login.actions.needAccount')}{' '}
-            <Box
-              as="strong"
-              ms="2"
-              color="gray.600"
-              _dark={{ color: 'gray.300' }}
-            >
-              {t('auth:login.actions.register')}
-            </Box>
-          </Button>
-        </Center>
       </Box>
     </SlideIn>
   );

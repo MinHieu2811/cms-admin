@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -16,7 +19,6 @@ model User {
   hashedPassword String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  favoriteIds String[] @db.ObjectId
 
   accounts Account[]
 }

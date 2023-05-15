@@ -1,7 +1,8 @@
-
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { isBrowser } from '@/src/utils/checkBrowser';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
 
 type AuthContextValue = {
   isAuthenticated: boolean;
@@ -34,6 +35,11 @@ export const AuthProvider: React.FC<AuthProvider> = ({ children }) => {
   const [token, setToken] = useState(
     (isBrowser && localStorage.getItem(AUTH_TOKEN_KEY)) ?? null
   );
+  useEffect(() => {
+    (async () => {
+      await axios.get('/api/auth/token')?.then((res) => console.log(res?.data));
+    })();
+  }, []);
 
   const handleUpdateToken = useCallback(
     (newToken: string) => {
