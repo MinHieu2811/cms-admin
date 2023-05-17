@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getToken } from 'next-auth/jwt';
 
 const secret = process.env.NEXTAUTH_SECRET;
 
@@ -8,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).json('Not this method')
   }
 
-  const token = await getToken({req, secret})
+  const token = "Token"
   if(!token) {
     res.status(500).json('Something went wrong!')
   }

@@ -11,6 +11,7 @@ import { PageLogin } from '../auth/login/PageLogin';
 import { PageLogout } from '../auth/login/PageLogout';
 import { AuthenticatedRouteGuard } from './guard';
 import React from 'react';
+import { PageRegister } from '../auth/register/RegisterPage';
 
 const LazyDashboardRoute = React.lazy(() => import('@/src/router/dashboard/DashboardRoutes'))
 
@@ -28,6 +29,7 @@ export const MainApp = () => {
                 />
                 <Route path="login" element={<PageLogin />} />
                 <Route path="logout" element={<PageLogout />} />
+                <Route path="register" element={<PageRegister />} />
                 <Route
                 path="dashboard/*"
                 element={
