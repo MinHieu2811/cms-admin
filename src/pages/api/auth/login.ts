@@ -49,7 +49,7 @@ export default async function handler(
 
   const refreshToken = jwt.sign(
     {
-      data: userDetail?.hashedPassword,
+      data: userDetail?.email,
     },
     process.env.NEXTAUTH_SECRET || 'thisisothersecret',
     { expiresIn: '8h' }

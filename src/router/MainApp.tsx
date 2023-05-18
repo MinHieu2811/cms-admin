@@ -13,24 +13,23 @@ import { AuthenticatedRouteGuard } from './guard';
 import React from 'react';
 import { PageRegister } from '../auth/register/RegisterPage';
 
-const LazyDashboardRoute = React.lazy(() => import('@/src/router/dashboard/DashboardRoutes'))
+const LazyDashboardRoute = React.lazy(
+  () => import('@/src/router/dashboard/DashboardRoutes')
+);
 
 export const MainApp = () => {
   return (
     <ErrorBoundary>
       {/* <ClientOnly> */}
-        <BrowserRouter basename="/app">
-          <Layout>
-            <Suspense fallback={<Loader />}>
-              <Routes>
-                <Route
-                  path="/"
-                  element={<Navigate to="/dashboard" replace />}
-                />
-                <Route path="login" element={<PageLogin />} />
-                <Route path="logout" element={<PageLogout />} />
-                <Route path="register" element={<PageRegister />} />
-                <Route
+      <BrowserRouter basename="/app">
+        <Layout>
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="login" element={<PageLogin />} />
+              <Route path="logout" element={<ErrorBoundary><PageLogout /></ErrorBoundary>} />
+              <Route path="register" element={<PageRegister />} />
+              <Route
                 path="dashboard/*"
                 element={
                   <AuthenticatedRouteGuard>
@@ -38,10 +37,10 @@ export const MainApp = () => {
                   </AuthenticatedRouteGuard>
                 }
               />
-              </Routes>
-            </Suspense>
-          </Layout>
-        </BrowserRouter>
+            </Routes>
+          </Suspense>
+        </Layout>
+      </BrowserRouter>
       {/* </ClientOnly> */}
     </ErrorBoundary>
   );

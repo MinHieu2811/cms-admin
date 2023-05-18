@@ -25,20 +25,13 @@ import {
   FiUser,
 } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
-
-// import buildInfo from '@/../.build-info.json';
 import { Icon } from '@/src/components/Icons';
-import { useAuthContext } from '@/src/services/auth/AuthContext';
-// import { useAccount } from '@/spa/account/account.service';
+import { useAccount } from '@/src/services/account/account.service';
 
 const AppVersion = ({ ...rest }) => {
   const { t } = useTranslation(['layout']);
 
   const { hasCopied, onCopy } = useClipboard(JSON.stringify(1, null, 2));
-
-  // if (!buildInfo?.version) {
-  //   return null;
-  // }
 
   return (
     <>
@@ -104,20 +97,19 @@ export const AccountMenu = ({ ...rest }) => {
   const { t } = useTranslation(['layout']);
 
   const { colorMode, toggleColorMode } = useColorMode();
-  // const { account, isLoading } = useAccount();
+  const { account } = useAccount();
   const navigate = useNavigate();
-  const { userProfile } = useAuthContext();
 
   return (
     <Box color="gray.800" _dark={{ color: 'white' }}>
       <Menu placement="bottom-end" {...rest}>
         <MenuButton borderRadius="full" _focusVisible={{ shadow: 'outline' }}>
-          <Avatar size="sm" icon={<></>} name={userProfile?.login}>
-            {!userProfile && <Spinner size="xs" />}
+          <Avatar size="sm" icon={<></>} name={account?.name}>
+            {!account && <Spinner size="xs" />}
           </Avatar>
         </MenuButton>
         <MenuList maxW="12rem" overflow="hidden">
-          <MenuGroup title={userProfile?.email} noOfLines={1}>
+          <MenuGroup title={account?.email} noOfLines={1}>
             <MenuItem
               as={Link}
               to="/account"

@@ -5,7 +5,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { SlideIn } from '@/src/components/SlideIn';
-import { Logo } from '@/src/components/Logo';
 import { useTranslation } from 'react-i18next';
 import { useRedirectFromUrl } from '@/src/utils/useRedirectFromUrl';
 import LoginForm from '@/src/components/LoginForm';
@@ -16,7 +15,6 @@ export const PageLogin = () => {
   const queryCache = useQueryClient();
   const redirect = useRedirectFromUrl();
   const {isAuthenticated} = useAuthContext()
-  console.log(isAuthenticated);
 
   const onLogin = () => {
     queryCache.clear()

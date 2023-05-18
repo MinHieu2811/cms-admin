@@ -9,7 +9,6 @@ export default async function handler(
     res.status(500).json('Not this method');
   }
   const { name, email, password, langKey } = req.body;
-  console.log(name, email, password, langKey);
 
   const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -21,7 +20,7 @@ export default async function handler(
       langKey: langKey,
       activated: false,
       authorities: ['ROLE_USER'],
-      login: password
+      login: password,
     },
   });
 
