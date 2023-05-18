@@ -79,7 +79,7 @@ export const LoginModalInterceptor = () => {
         <ModalBody p="6">
           <Heading size="lg">{t('auth:interceptor.title')}</Heading>
           <Text mb="2">{t('auth:interceptor.description')}</Text>
-          <LoginForm />
+          <LoginForm onSuccess={handleLogin}/>
         </ModalBody>
       </ModalContent>
     </Modal>

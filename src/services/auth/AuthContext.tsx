@@ -1,12 +1,14 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { isBrowser } from '@/src/utils/checkBrowser';
-import { useSession } from 'next-auth/react';
 import axios from 'axios';
+import { Account } from '@/src/types/account.types';
 
 type AuthContextValue = {
   isAuthenticated: boolean;
   updateToken(token?: string | null): void;
+  userProfile?: Account;
+  updateProfile: (newProfile: Account) => void;
 };
 
 export const AUTH_TOKEN_KEY = 'authToken';
@@ -25,6 +27,18 @@ const updateToken = (newToken?: string | null) => {
   }
 };
 
+const updateProfile = (newProfile?: Account | null) => {
+  if (!isBrowser) {
+    return () => undefined;
+  }
+
+  if (!newProfile) {
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+  } else {
+    localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(newProfile));
+  }
+};
+
 export const useAuthContext = () => useContext(AuthContext);
 
 interface AuthProvider {
@@ -35,11 +49,7 @@ export const AuthProvider: React.FC<AuthProvider> = ({ children }) => {
   const [token, setToken] = useState(
     (isBrowser && localStorage.getItem(AUTH_TOKEN_KEY)) ?? null
   );
-  useEffect(() => {
-    (async () => {
-      await axios.get('/api/auth/token')?.then((res) => console.log(res?.data));
-    })();
-  }, []);
+  const [userProfile, setUserProfile] = useState<Account>();
 
   const handleUpdateToken = useCallback(
     (newToken: string) => {
@@ -49,9 +59,14 @@ export const AuthProvider: React.FC<AuthProvider> = ({ children }) => {
     [setToken]
   );
 
+  const handleUpdateProfile = useCallback((profile: Account) => {
+    setUserProfile(profile);
+    updateProfile(profile);
+  }, []);
+
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated: !!token, updateToken: handleUpdateToken }}
+      value={{ isAuthenticated: !!token, updateToken: handleUpdateToken, userProfile, updateProfile: handleUpdateProfile }}
     >
       {children}
     </AuthContext.Provider>

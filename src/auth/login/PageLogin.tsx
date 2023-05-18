@@ -9,11 +9,14 @@ import { Logo } from '@/src/components/Logo';
 import { useTranslation } from 'react-i18next';
 import { useRedirectFromUrl } from '@/src/utils/useRedirectFromUrl';
 import LoginForm from '@/src/components/LoginForm';
+import { useAuthContext } from '@/src/services/auth/AuthContext';
 
 export const PageLogin = () => {
   const { t } = useTranslation(['auth']);
   const queryCache = useQueryClient();
   const redirect = useRedirectFromUrl();
+  const {isAuthenticated} = useAuthContext()
+  console.log(isAuthenticated);
 
   const onLogin = () => {
     queryCache.clear()

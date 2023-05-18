@@ -20,19 +20,19 @@ export default async function handler(
       .json({ message: 'Check your credentials', success: false });
   }
 
-  const userDetial = await prisma?.user.findUnique({
+  const userDetail = await prisma?.user.findUnique({
     where: {
       email: email,
     },
   });
 
-  if (!userDetial || !userDetial?.hashedPassword) {
+  if (!userDetail || !userDetail?.hashedPassword) {
     res?.status(404).json({ message: 'User not found!', success: false });
   }
 
   const isCorrectPassword = await bcrypt.compare(
     password,
-    userDetial?.hashedPassword as string
+    userDetail?.hashedPassword as string
   );
 
   if (!isCorrectPassword) {
@@ -41,7 +41,7 @@ export default async function handler(
 
   const accessToken = jwt.sign(
     {
-      data: userDetial,
+      data: userDetail,
     },
     process?.env.NEXTAUTH_SECRET || 'thisissecret',
     { expiresIn: '1h' }
@@ -49,7 +49,7 @@ export default async function handler(
 
   const refreshToken = jwt.sign(
     {
-      data: userDetial?.hashedPassword,
+      data: userDetail?.hashedPassword,
     },
     process.env.NEXTAUTH_SECRET || 'thisisothersecret',
     { expiresIn: '8h' }
@@ -60,9 +60,8 @@ export default async function handler(
   res?.status(200).json({
     success: true,
     data: {
-      userDetial,
+      userDetail,
       accessToken: accessToken,
-      refreshToken: refreshToken,
     },
   });
 }

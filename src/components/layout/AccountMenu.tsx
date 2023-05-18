@@ -28,14 +28,13 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // import buildInfo from '@/../.build-info.json';
 import { Icon } from '@/src/components/Icons';
+import { useAuthContext } from '@/src/services/auth/AuthContext';
 // import { useAccount } from '@/spa/account/account.service';
 
 const AppVersion = ({ ...rest }) => {
   const { t } = useTranslation(['layout']);
 
-  const { hasCopied, onCopy } = useClipboard(
-    JSON.stringify(1, null, 2)
-  );
+  const { hasCopied, onCopy } = useClipboard(JSON.stringify(1, null, 2));
 
   // if (!buildInfo?.version) {
   //   return null;
@@ -107,17 +106,18 @@ export const AccountMenu = ({ ...rest }) => {
   const { colorMode, toggleColorMode } = useColorMode();
   // const { account, isLoading } = useAccount();
   const navigate = useNavigate();
+  const { userProfile } = useAuthContext();
 
   return (
     <Box color="gray.800" _dark={{ color: 'white' }}>
       <Menu placement="bottom-end" {...rest}>
         <MenuButton borderRadius="full" _focusVisible={{ shadow: 'outline' }}>
-          {/* <Avatar size="sm" icon={<></>} name={account?.login}>
-            {isLoading && <Spinner size="xs" />}
-          </Avatar> */}
+          <Avatar size="sm" icon={<></>} name={userProfile?.login}>
+            {!userProfile && <Spinner size="xs" />}
+          </Avatar>
         </MenuButton>
         <MenuList maxW="12rem" overflow="hidden">
-          {/* <MenuGroup title={account?.email} noOfLines={1}>
+          <MenuGroup title={userProfile?.email} noOfLines={1}>
             <MenuItem
               as={Link}
               to="/account"
@@ -125,7 +125,7 @@ export const AccountMenu = ({ ...rest }) => {
             >
               {t('layout:accountMenu.myAccount')}
             </MenuItem>
-          </MenuGroup> */}
+          </MenuGroup>
           <MenuDivider />
           <MenuItem
             icon={
