@@ -4,7 +4,7 @@ import {
   UseQueryOptions,
   useQuery,
 } from '@tanstack/react-query';
-import Axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { Account, AccountError } from '@/src/types/account.types';
 import { useMutation } from '@tanstack/react-query';
 import {
@@ -14,6 +14,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { ROLE_ADMIN } from '@/src/constants';
 import { useState } from 'react';
+import { axiosInstace } from '@/src/config/axios';
 
 export const accountKeys = createQueryKeys('accountService', {
   account: null,
@@ -35,7 +36,12 @@ export const useCreateAccount = (
       password,
       langKey = DEFAULT_LANGUAGE_KEY,
     }): Promise<Account> =>
-      Axios.post('/api/auth/register', { name, email, password, langKey }),
+      axiosInstace.post('/api/auth/register', {
+        name,
+        email,
+        password,
+        langKey,
+      }),
     {
       ...config,
     }
@@ -56,14 +62,14 @@ export const useAccount = (
     accountKeys.account.queryKey,
     async (): Promise<Account> => {
       setLoading(true);
-      const res = await Axios.get('/api/auth/account')
-        ?.then((res) => res?.data?.data)
+      const res = await axiosInstace.get('/api/auth/account')
+        ?.then((res) => res?.data)
         ?.catch((err) => console.error(err))
         .finally(() => {
           setLoading(false);
         });
 
-        return res
+      return res;
     },
     {
       onSuccess: (data) => {

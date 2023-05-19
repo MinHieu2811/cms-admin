@@ -1,9 +1,29 @@
-import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import Axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { AUTH_TOKEN_KEY } from '../services/auth/AuthContext';
 import { isBrowser } from '../utils/checkBrowser';
 
-Axios.interceptors.request.use(
+const axiosInstace = Axios.create({
+  baseURL: "http://localhost:3000",
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": "true",
+    "Access-Control-Allow-Methods": "POST, PUT, PATCH, GET, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "*",
+  },
+  timeout: 30000,
+});
+
+const handleRefetchToken = async () => {
+  try {
+    return await Axios.get('/api/auth/refresh')?.then((res) => res?.data);
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
+axiosInstace.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const isExternal = !!config?.url?.startsWith('http');
     const token = isBrowser ? localStorage.getItem(AUTH_TOKEN_KEY) : null;
@@ -18,15 +38,39 @@ Axios.interceptors.request.use(
       },
     };
   },
-  (error) => Promise.reject(error)
+  async (err: AxiosError) => {
+    return Promise.reject(err)
+  }
 );
 
-Axios.interceptors.response.use((response: AxiosResponse) => {
-  if(response?.headers['x-total-count']) {
-    return {
-      content: response?.data,
-      totalItems: response?.headers['x-total-count']
+axiosInstace.interceptors.response.use(
+  (response: AxiosResponse) => {
+    if (response?.headers['x-total-count']) {
+      return {
+        content: response?.data,
+        totalItems: response?.headers['x-total-count'],
+      };
+    }
+    return response?.data;
+  },
+  async (err) => {
+    const originalConfig = err.config;
+    if (err.response) {
+      if (err.response.status === 401 && !originalConfig?._retry) {
+        originalConfig._retry = true;
+        const accessToken = await handleRefetchToken();
+        if (window) window.localStorage.setItem('access_token', accessToken);
+        Axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+        return axiosInstace({
+          baseURL: "http://localhost:3000",
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+      }
     }
   }
-  return response?.data
-})
+);
+
+export {axiosInstace}

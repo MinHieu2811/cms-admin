@@ -11,12 +11,13 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import Axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuthContext } from './AuthContext';
 import LoginForm from '@/src/components/LoginForm';
+import { axiosInstace } from '@/src/config/axios';
+import { AxiosError } from 'axios';
 
 export const LoginModalInterceptor = () => {
   const { t } = useTranslation(['auth']);
@@ -31,9 +32,12 @@ export const LoginModalInterceptor = () => {
   const openLoginModal = loginModal.onOpen;
 
   useEffect(() => {
-    const interceptor = Axios.interceptors.response.use(
-      (res) => res,
-      (error) => {
+    const interceptor = axiosInstace.interceptors.response.use(
+      (res) => {
+        return res
+      },
+      (error: AxiosError) => {
+        console.log('error', error);
         if (
           error?.response?.status === 401 &&
           pathnameRef.current !== '/login'
@@ -45,7 +49,7 @@ export const LoginModalInterceptor = () => {
       }
     );
 
-    return () => Axios.interceptors.response.eject(interceptor);
+    return () => axiosInstace.interceptors.response.eject(interceptor);
   }, [openLoginModal, authContext?.updateToken, queryCache]);
 
   useEffect(() => {
