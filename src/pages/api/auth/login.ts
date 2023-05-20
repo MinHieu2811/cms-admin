@@ -62,7 +62,7 @@ export default async function handler(
     { expiresIn: '8h' }
   );
 
-  cookies.set('refresh_token', refreshToken, { httpOnly: true });
+  cookies.set('refresh_token', refreshToken, { httpOnly: false });
 
   res?.status(200).json({
     success: true,

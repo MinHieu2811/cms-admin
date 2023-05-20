@@ -18,6 +18,14 @@ import { useAuthContext } from './AuthContext';
 import LoginForm from '@/src/components/LoginForm';
 import { axiosInstace } from '@/src/config/axios';
 import { AxiosError } from 'axios';
+import { useCookies } from 'react-cookie';
+import decode from 'jwt-decode';
+
+interface JwtRefreshToken {
+  data: string;
+  exp: number;
+  iat: number;
+}
 
 export const LoginModalInterceptor = () => {
   const { t } = useTranslation(['auth']);
@@ -28,13 +36,26 @@ export const LoginModalInterceptor = () => {
   const { pathname } = useLocation();
   const pathnameRef = useRef(pathname);
   pathnameRef.current = pathname;
+  const [cookies] = useCookies(['refresh_token']);
 
   const openLoginModal = loginModal.onOpen;
 
   useEffect(() => {
+    if (!cookies) {
+      queryCache.cancelQueries();
+      openLoginModal();
+    }
+    const verifiedToken = decode(cookies?.refresh_token) as JwtRefreshToken;
+    if (verifiedToken?.exp * 1000 < Date.now()) {
+      queryCache.cancelQueries();
+      openLoginModal();
+    }
+  }, [cookies]);
+
+  useEffect(() => {
     const interceptor = axiosInstace.interceptors.response.use(
       (res) => {
-        return res
+        return res;
       },
       (error: AxiosError) => {
         console.log('error', error);
@@ -83,7 +104,7 @@ export const LoginModalInterceptor = () => {
         <ModalBody p="6">
           <Heading size="lg">{t('auth:interceptor.title')}</Heading>
           <Text mb="2">{t('auth:interceptor.description')}</Text>
-          <LoginForm onSuccess={handleLogin}/>
+          <LoginForm onSuccess={handleLogin} />
         </ModalBody>
       </ModalContent>
     </Modal>
