@@ -24,8 +24,10 @@ const handleRefetchToken = async () => {
 };
 
 axiosInstace.interceptors.request.use(
+  /* @ts-ignore */
   (config: AxiosRequestConfig) => {
     const isExternal = !!config?.url?.startsWith('http');
+    /* @ts-enabled */
     const token = isBrowser ? localStorage.getItem(AUTH_TOKEN_KEY) : null;
     const authHeaders =
       token && !isExternal ? { Authorization: `Bearer ${token}` } : {};

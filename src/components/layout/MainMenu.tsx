@@ -8,6 +8,7 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { useRtl } from '@/src/hooks/useRtl';
 // import { useAccount } from '@/spa/account/account.service';
 import { useLayoutContext } from '@/src/components/layout';
+import { useAccount } from '@/src/services/account/account.service';
 
 const MainMenuItem = ({ to, ...rest }: BoxProps & { to: string }) => {
   const { rtlValue } = useRtl();
@@ -63,15 +64,15 @@ const MainMenuItem = ({ to, ...rest }: BoxProps & { to: string }) => {
 
 export const MainMenu = ({ ...rest }) => {
   const { t } = useTranslation(['layout']);
-  // const { isAdmin } = useAccount();
+  const { isAdmin } = useAccount();
   return (
     <Stack direction="row" spacing="1" {...rest}>
       <MainMenuItem to="/dashboard">
         {t('layout:mainMenu.dashboard')}
       </MainMenuItem>
-      {/* {isAdmin && (
+      {isAdmin && (
         <MainMenuItem to="/admin">{t('layout:mainMenu.admin')}</MainMenuItem>
-      )} */}
+      )}
     </Stack>
   );
 };

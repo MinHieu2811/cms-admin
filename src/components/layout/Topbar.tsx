@@ -43,6 +43,7 @@ export const TopBar = () => {
   return (
     <>
       <SlideFade in offsetY={-40} style={{ zIndex: 2 }}>
+        <Logo/>
         <Flex
           position="fixed"
           top="0"
