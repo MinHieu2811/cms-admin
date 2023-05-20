@@ -41,7 +41,14 @@ export default async function handler(
 
   const accessToken = jwt.sign(
     {
-      data: userDetail,
+      data: {
+        name: userDetail?.name,
+        email: userDetail?.email,
+        activated: userDetail?.activated,
+        authorities: userDetail?.authorities,
+        image: userDetail?.image,
+        id: userDetail?.id
+      },
     },
     process?.env.NEXTAUTH_SECRET || 'thisissecret',
     { expiresIn: '1h' }
@@ -55,12 +62,11 @@ export default async function handler(
     { expiresIn: '8h' }
   );
 
-  cookies.set('refresh_token', refreshToken, { httpOnly: true });
+  cookies.set('refresh_token', refreshToken, { httpOnly: false });
 
   res?.status(200).json({
     success: true,
     data: {
-      userDetail,
       accessToken: accessToken,
     },
   });
