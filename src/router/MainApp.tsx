@@ -1,10 +1,5 @@
-import { Flex, Progress } from '@chakra-ui/react';
-import dynamic from 'next/dynamic';
-import { Viewport } from '../components/shared/Viewport';
 import { ErrorBoundary } from '../components/shared/ErrorBoundary';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import ClientOnly from '../components/shared/ClientOnly';
-import { isBrowser } from '../utils/checkBrowser';
 import { Layout, Loader } from '../components/layout';
 import { Suspense } from 'react';
 import { PageLogin } from '../auth/login/PageLogin';
@@ -12,6 +7,7 @@ import { PageLogout } from '../auth/login/PageLogout';
 import { AuthenticatedRouteGuard } from './guard';
 import React from 'react';
 import { PageRegister } from '../auth/register/RegisterPage';
+import { ErrorPage } from './dashboard/ErrorPage';
 
 const LazyDashboardRoute = React.lazy(
   () => import('@/src/router/dashboard/DashboardRoutes')
@@ -25,18 +21,27 @@ export const MainApp = () => {
         <Layout>
           <Suspense fallback={<Loader />}>
             <Routes>
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
-              <Route path="login" element={<PageLogin />} />
-              <Route path="logout" element={<ErrorBoundary><PageLogout /></ErrorBoundary>} />
-              <Route path="register" element={<PageRegister />} />
-              <Route
-                path="dashboard/*"
-                element={
-                  <AuthenticatedRouteGuard>
-                    <LazyDashboardRoute />
-                  </AuthenticatedRouteGuard>
-                }
-              />
+              <Route path="/">
+                <Route
+                  index
+                  element={
+                    <AuthenticatedRouteGuard>
+                      <LazyDashboardRoute />
+                    </AuthenticatedRouteGuard>
+                  }
+                />
+                <Route path="login" element={<PageLogin />} />
+                <Route
+                  path="logout"
+                  element={
+                    <ErrorBoundary>
+                      <PageLogout />
+                    </ErrorBoundary>
+                  }
+                />
+                <Route path="register" element={<PageRegister />} />
+                <Route path="*" element={<ErrorPage errorCode={404} />} />
+              </Route>
             </Routes>
           </Suspense>
         </Layout>

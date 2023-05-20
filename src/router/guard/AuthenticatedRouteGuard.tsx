@@ -1,7 +1,7 @@
 import { ErrorBoundary } from '@/src/components/shared/ErrorBoundary';
 import { useAuthContext } from '@/src/services/auth/AuthContext';
 import React from 'react';
-import { useDirectUnauthenticated } from './useDirectAuthenticated';
+import { useDirectUnauthenticated } from '../../hooks/useDirectAuthenticated';
 interface AuthenticatedRouteProps {
   children: React.ReactNode;
 }
