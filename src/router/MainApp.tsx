@@ -8,6 +8,7 @@ import { AuthenticatedRouteGuard } from './guard';
 import React from 'react';
 import { PageRegister } from '../auth/register/RegisterPage';
 import { ErrorPage } from './dashboard/ErrorPage';
+import AdminRoutes from './admin/AdminRoute';
 
 const LazyDashboardRoute = React.lazy(
   () => import('@/src/router/dashboard/DashboardRoutes')
@@ -39,6 +40,7 @@ export const MainApp = () => {
                     </ErrorBoundary>
                   }
                 />
+                <Route path="admin" element={<AdminRoutes />} />
                 <Route path="register" element={<PageRegister />} />
                 <Route path="*" element={<ErrorPage errorCode={404} />} />
               </Route>

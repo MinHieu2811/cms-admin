@@ -1,15 +1,47 @@
-import { DataList, DataListCell, DataListFooter, DataListHeader, DataListRow } from "@/src/components/DataList/DataList";
-import { Pagination, PaginationButtonFirstPage, PaginationButtonLastPage, PaginationButtonNextPage, PaginationButtonPrevPage, PaginationInfo } from "@/src/components/Pagination";
-import { DateAgo } from "@/src/components/TimeAgo";
-import { Page, PageContent } from "@/src/components/layout";
-import { AdminNav } from "@/src/components/layout/AdminNav";
-import { UserStatus } from "@/src/components/shared/UserStatus";
-import { usePaginationFromUrl } from "@/src/hooks/usePaginationFromUrl";
-import { useUserList } from "@/src/services/user/user.service";
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Avatar, Badge, Box, Button, Center, Code, HStack, Heading, IconButton, LinkBox, LinkOverlay, Text, Wrap, WrapItem } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
-import { FiPlus, FiRefreshCw } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import {
+  DataList,
+  DataListCell,
+  DataListFooter,
+  DataListHeader,
+  DataListRow,
+} from '@/src/components/DataList/DataList';
+import {
+  Pagination,
+  PaginationButtonFirstPage,
+  PaginationButtonLastPage,
+  PaginationButtonNextPage,
+  PaginationButtonPrevPage,
+  PaginationInfo,
+} from '@/src/components/Pagination';
+import { DateAgo } from '@/src/components/TimeAgo';
+import { Page, PageContent } from '@/src/components/layout';
+import { AdminNav } from '@/src/components/layout/AdminNav';
+import { UserStatus } from '@/src/components/shared/UserStatus';
+import { usePaginationFromUrl } from '@/src/hooks/usePaginationFromUrl';
+import { useUserList } from '@/src/services/user/user.service';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Center,
+  Code,
+  HStack,
+  Heading,
+  IconButton,
+  LinkBox,
+  LinkOverlay,
+  Text,
+  Wrap,
+  WrapItem,
+} from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+import { FiPlus, FiRefreshCw } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 export const PageUsers = () => {
   const { t } = useTranslation(['users']);
@@ -51,15 +83,15 @@ export const PageUsers = () => {
 
         <DataList>
           <DataListHeader isVisible={{ base: false, md: true }}>
-            <DataListCell colName="login" colWidth="2">
-              {t('users:data.login.label')} / {t('users:data.email.label')}
-            </DataListCell>
             <DataListCell
               colName="id"
               colWidth="4rem"
               isVisible={{ base: false, lg: true }}
             >
               {t('users:data.id.label')}
+            </DataListCell>
+            <DataListCell colName="login" colWidth="2">
+              {t('users:data.login.label')} / {t('users:data.email.label')}
             </DataListCell>
             <DataListCell
               colName="authorities"
@@ -113,9 +145,14 @@ export const PageUsers = () => {
               </Alert>
             </Center>
           )}
-          {users.data?.content.map((user) => (
+          {users?.data?.content?.map((user) => (
             <DataListRow as={LinkBox} key={user.id}>
-              <DataListCell colName="login">
+              <DataListCell colName="id" colWidth={4}>
+                <Code maxW="full" fontSize="xs">
+                  {user.id}
+                </Code>
+              </DataListCell>
+              <DataListCell colName="login" colWidth={2}>
                 <HStack maxW="100%">
                   <Avatar size="sm" name={user.login} mx="1" />
                   <Box minW="0">
@@ -135,11 +172,6 @@ export const PageUsers = () => {
                     </Text>
                   </Box>
                 </HStack>
-              </DataListCell>
-              <DataListCell colName="id">
-                <Code maxW="full" fontSize="xs">
-                  {user.id}
-                </Code>
               </DataListCell>
               <DataListCell colName="authorities">
                 <Wrap>

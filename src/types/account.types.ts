@@ -1,7 +1,7 @@
 export type UserRole = 'ROLE_ADMIN' | 'ROLE_USER';
 
 export type User = {
-  id: number;
+  id: string;
   name: string;
   email: string;
   activated: boolean;

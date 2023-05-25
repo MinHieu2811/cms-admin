@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { ErrorPage } from '@/src/router/dashboard/ErrorPage';
+import { PageUsers } from './PageUser';
 // import { PageUserCreate } from '@/spa/admin/users/PageUserCreate';
 // import { PageUserUpdate } from '@/spa/admin/users/PageUserUpdate';
 // import { PageUsers } from '@/spa/admin/users/PageUsers';
@@ -10,8 +11,8 @@ import { ErrorPage } from '@/src/router/dashboard/ErrorPage';
 const AdminUsersRoutes = () => {
   return (
     <Routes>
-      {/* <Route path="/" element={<PageUsers />} />
-      <Route path="create" element={<PageUserCreate />} />
+      <Route path="/" element={<PageUsers />} />
+      {/* <Route path="create" element={<PageUserCreate />} />
       <Route path=":login" element={<PageUserUpdate />} /> */}
       <Route path="*" element={<ErrorPage errorCode={404} />} />
     </Routes>

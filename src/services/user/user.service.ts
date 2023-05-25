@@ -9,7 +9,7 @@ type UserMutateError = {
   errorKey: 'userexists' | 'emailexists';
 };
 
-const USERS_BASE_URL = '/admin/users';
+const USERS_BASE_URL = '/api/admin/user';
 
 const usersKeys = createQueryKeys('usersService', {
   users: (params: { page?: number; size?: number }) => [params],
@@ -29,7 +29,7 @@ export const useUserList = (
   const result = useQuery(
     usersKeys.users({ page, size }).queryKey,
     (): Promise<UserList> =>
-      axiosInstace.get(USERS_BASE_URL, { params: { page, size, sort: 'id,desc' } }),
+      axiosInstace.get(USERS_BASE_URL).then((res) => res?.data),
     { keepPreviousData: true, ...config }
   );
 
