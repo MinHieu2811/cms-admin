@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Center, Heading, Stack, Text } from '@chakra-ui/react';
+import { Button, Center, Heading, Stack, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
@@ -29,7 +29,7 @@ export const ErrorPage = ({ errorCode }: { errorCode?: number }) => {
   return (
     <Center flex="1" p="8">
       <Stack
-        direction={{ base: 'column-reverse', md: 'row' }}
+        direction={{ base: 'column-reverse', md: 'column' }}
         align="center"
         spacing={4}
       >
@@ -37,12 +37,9 @@ export const ErrorPage = ({ errorCode }: { errorCode?: number }) => {
           <Text fontSize="5xl">{illustration}</Text>
         </Stack>
         <Stack
-          textAlign={{ base: 'center', md: 'left' }}
-          alignItems={{ base: 'center', md: 'flex-start' }}
+          textAlign={{ base: 'center', md: 'center' }}
+          alignItems={{ base: 'center', md: 'center' }}
         >
-          <Link href="/" passHref>
-            <Logo />
-          </Link>
           <Heading>{t(`components:errorPage.${errorType}.title`)}</Heading>
           <Text>{t(`components:errorPage.${errorType}.description`)}</Text>
           {!!errorCode && (
@@ -57,6 +54,9 @@ export const ErrorPage = ({ errorCode }: { errorCode?: number }) => {
               })}
             </Text>
           )}
+          <Link href="/" passHref>
+            <Button marginY={4}>Back to Homepage</Button>
+          </Link>
         </Stack>
       </Stack>
     </Center>

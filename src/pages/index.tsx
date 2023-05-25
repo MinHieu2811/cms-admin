@@ -9,7 +9,7 @@ const Index = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/app/dashboard');
+    router.push('/app');
   }, [router]);
 
   return (
