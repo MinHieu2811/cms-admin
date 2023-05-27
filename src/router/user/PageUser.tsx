@@ -5,6 +5,7 @@ import {
   DataListHeader,
   DataListRow,
 } from '@/src/components/DataList/DataList';
+import { Icon } from '@/src/components/Icons';
 import {
   Pagination,
   PaginationButtonFirstPage,
@@ -14,11 +15,14 @@ import {
   PaginationInfo,
 } from '@/src/components/Pagination';
 import { DateAgo } from '@/src/components/TimeAgo';
+import { useToastError, useToastSuccess } from '@/src/components/Toast';
 import { Page, PageContent } from '@/src/components/layout';
 import { AdminNav } from '@/src/components/layout/AdminNav';
+import { ActionsButton } from '@/src/components/shared/ActionButton';
 import { UserStatus } from '@/src/components/shared/UserStatus';
 import { usePaginationFromUrl } from '@/src/hooks/usePaginationFromUrl';
-import { useUserList } from '@/src/services/user/user.service';
+import { useUserList, useUserUpdate } from '@/src/services/user/user.service';
+import { User } from '@/src/types/account.types';
 import {
   Alert,
   AlertDescription,
@@ -35,13 +39,121 @@ import {
   IconButton,
   LinkBox,
   LinkOverlay,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  MenuProps,
+  Portal,
   Text,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FiPlus, FiRefreshCw } from 'react-icons/fi';
+import { FiCheckCircle, FiEdit, FiPlus, FiRefreshCw, FiTrash2, FiXCircle } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+
+type UserActionProps = Omit<MenuProps, 'children'> & {
+  user: User;
+};
+const UserActions = ({ user, ...rest }: UserActionProps) => {
+  const { t } = useTranslation(['common', 'users']);
+  const toastSuccess = useToastSuccess();
+  const toastError = useToastError();
+
+  const userUpdate = useUserUpdate({
+    onSuccess: ({ activated, login }) => {
+      if (activated) {
+        toastSuccess({
+          title: t('users:feedbacks.activateUserSuccess.title'),
+          description: t('users:feedbacks.activateUserSuccess.description', {
+            login,
+          }),
+        });
+      } else {
+        toastSuccess({
+          title: t('users:feedbacks.deactivateUserSuccess.title'),
+          description: t('users:feedbacks.deactivateUserSuccess.description', {
+            login,
+          }),
+        });
+      }
+    },
+    onError: (_, { activated, login }) => {
+      if (activated) {
+        toastError({
+          title: t('users:feedbacks.activateUserError.title'),
+          description: t('users:feedbacks.activateUserError.description', {
+            login,
+          }),
+        });
+      } else {
+        toastError({
+          title: t('users:feedbacks.deactivateUserError.title'),
+          description: t('users:feedbacks.deactivateUserError.description', {
+            login,
+          }),
+        });
+      }
+    },
+  });
+
+  const activateUser = useCallback(
+    () => userUpdate.mutate({ ...user, activated: true }),
+    []
+  );
+  const deactivateUser = useCallback(
+    () => userUpdate.mutate({ ...user, activated: false }),
+    []
+  );
+  const isActionsLoading = userUpdate.isLoading;
+
+  return (
+    <Menu isLazy {...rest} placement='left-start'>
+      <MenuButton
+        as={ActionsButton}
+        isLoading={isActionsLoading}
+      />
+      <Portal>
+        <MenuList>
+          <MenuItem
+            as={Link}
+            to={user.login}
+            icon={<Icon icon={FiEdit} fontSize="lg" color="gray.400" />}
+          >
+            {t('common:actions.edit')}
+          </MenuItem>
+          {user.activated ? (
+            <MenuItem
+              onClick={deactivateUser}
+              icon={<Icon icon={FiXCircle} fontSize="lg" color="gray.400" />}
+            >
+              {t('common:actions.deactivate')}
+            </MenuItem>
+          ) : (
+            <MenuItem
+              onClick={activateUser}
+              icon={
+                <Icon icon={FiCheckCircle} fontSize="lg" color="gray.400" />
+              }
+            >
+              {t('common:actions.activate')}
+            </MenuItem>
+          )}
+          <MenuDivider />
+          {/* <ConfirmMenuItem
+            icon={<Icon icon={FiTrash2} fontSize="lg" color="gray.400" />}
+            onClick={removeUser}
+          >
+            {t('common:actions.delete')}
+          </ConfirmMenuItem> */}
+        </MenuList>
+      </Portal>
+    </Menu>
+  )
+};
 
 export const PageUsers = () => {
   const { t } = useTranslation(['users']);
@@ -85,7 +197,7 @@ export const PageUsers = () => {
           <DataListHeader isVisible={{ base: false, md: true }}>
             <DataListCell
               colName="id"
-              colWidth="4rem"
+              colWidth="8rem"
               isVisible={{ base: false, lg: true }}
             >
               {t('users:data.id.label')}
@@ -228,7 +340,7 @@ export const PageUsers = () => {
                 <UserStatus isActivated={user.activated} />
               </DataListCell>
               <DataListCell colName="actions">
-                {/* <UserActions user={user} /> */}
+                <UserActions user={user} />
               </DataListCell>
             </DataListRow>
           ))}

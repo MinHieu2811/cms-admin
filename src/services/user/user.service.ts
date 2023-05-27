@@ -1,8 +1,17 @@
-import { axiosInstace } from "@/src/config/axios";
-import { UserList } from "@/src/types/account.types";
-import { createQueryKeys, inferQueryKeys } from "@lukemorales/query-key-factory";
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import { axiosInstace } from '@/src/config/axios';
+import { User, UserList } from '@/src/types/account.types';
+import {
+  createQueryKeys,
+  inferQueryKeys,
+} from '@lukemorales/query-key-factory';
+import {
+  UseMutationOptions,
+  UseQueryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 type UserMutateError = {
   title: string;
@@ -46,4 +55,38 @@ export const useUserList = (
     isLoadingPage,
     ...result,
   };
+};
+
+export const useUserUpdate = (
+  config: UseMutationOptions<User, AxiosError<UserMutateError>, User> = {}
+) => {
+  const queryClient = useQueryClient();
+  return useMutation((payload) => axiosInstace.put(USERS_BASE_URL, payload), {
+    ...config,
+    onSuccess: (data, payload, ...rest) => {
+      queryClient.cancelQueries(usersKeys?.users?._def);
+      queryClient
+        ?.getQueryCache()
+        ?.findAll(usersKeys?.users?._def)
+        ?.forEach(({ queryKey }) => {
+          queryClient.setQueryData<UserList | undefined>(
+            queryKey,
+            (cachedData) => {
+              if (!cachedData) return;
+              return {
+                ...cachedData,
+                content: (cachedData?.content || [])?.map((user) =>
+                  user?.id === data?.id ? data : user
+                ),
+              };
+            }
+          );
+        });
+      queryClient?.invalidateQueries(usersKeys?.users?._def);
+      queryClient?.invalidateQueries(usersKeys.user({ login: payload?.login }));
+      if (config?.onSuccess) {
+        config?.onSuccess(data, payload, ...rest);
+      }
+    },
+  });
 };
