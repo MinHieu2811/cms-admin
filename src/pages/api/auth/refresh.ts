@@ -26,7 +26,7 @@ export default async function handler(
 
     const userDetail = await prisma?.user.findUnique({
       where: {
-        email: decoded?.data?.email,
+        email: decoded?.data,
       },
     });
 
@@ -53,6 +53,6 @@ export default async function handler(
 
     res.status(200).json(accessToken);
   } catch (err) {
-    res.status(401).json(err)
+    res.status(401).json(err);
   }
 }
