@@ -1,3 +1,4 @@
+import { ConfirmMenuItem } from '@/src/components/ConfirmMenuItem';
 import {
   DataList,
   DataListCell,
@@ -21,7 +22,11 @@ import { AdminNav } from '@/src/components/layout/AdminNav';
 import { ActionsButton } from '@/src/components/shared/ActionButton';
 import { UserStatus } from '@/src/components/shared/UserStatus';
 import { usePaginationFromUrl } from '@/src/hooks/usePaginationFromUrl';
-import { useUserList, useUserUpdate } from '@/src/services/user/user.service';
+import {
+  useUserList,
+  useUserRemove,
+  useUserUpdate,
+} from '@/src/services/user/user.service';
 import { User } from '@/src/types/account.types';
 import {
   Alert,
@@ -52,7 +57,14 @@ import {
 } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FiCheckCircle, FiEdit, FiPlus, FiRefreshCw, FiTrash2, FiXCircle } from 'react-icons/fi';
+import {
+  FiCheckCircle,
+  FiEdit,
+  FiPlus,
+  FiRefreshCw,
+  FiTrash2,
+  FiXCircle,
+} from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 type UserActionProps = Omit<MenuProps, 'children'> & {
@@ -110,12 +122,31 @@ const UserActions = ({ user, ...rest }: UserActionProps) => {
   );
   const isActionsLoading = userUpdate.isLoading;
 
+  const userRemove = useUserRemove({
+    onSuccess: (_, { id }) => {
+      toastSuccess({
+        title: t('users:feedbacks.deleteUserSuccess.title'),
+        description: t('users:feedbacks.deleteUserSuccess.description', {
+          id,
+        }),
+      });
+    },
+    onError: (_, { id }) => {
+      toastError({
+        title: t('users:feedbacks.deleteUserError.title'),
+        description: t('users:feedbacks.deleteUserError.description', {
+          id,
+        }),
+      });
+    },
+  });
+
+  const removeUser = () => userRemove?.mutate(user)
+  const isRemovalLoading = userRemove?.isLoading
+
   return (
-    <Menu isLazy {...rest} placement='left-start'>
-      <MenuButton
-        as={ActionsButton}
-        isLoading={isActionsLoading}
-      />
+    <Menu isLazy {...rest} placement="left-start">
+      <MenuButton as={ActionsButton} isLoading={isActionsLoading} />
       <Portal>
         <MenuList>
           <MenuItem
@@ -143,16 +174,16 @@ const UserActions = ({ user, ...rest }: UserActionProps) => {
             </MenuItem>
           )}
           <MenuDivider />
-          {/* <ConfirmMenuItem
+          <ConfirmMenuItem
             icon={<Icon icon={FiTrash2} fontSize="lg" color="gray.400" />}
             onClick={removeUser}
           >
             {t('common:actions.delete')}
-          </ConfirmMenuItem> */}
+          </ConfirmMenuItem>
         </MenuList>
       </Portal>
     </Menu>
-  )
+  );
 };
 
 export const PageUsers = () => {
@@ -258,19 +289,19 @@ export const PageUsers = () => {
             </Center>
           )}
           {users?.data?.content?.map((user) => (
-            <DataListRow as={LinkBox} key={user.id}>
+            <DataListRow as={LinkBox} key={user?.id}>
               <DataListCell colName="id" colWidth={4}>
                 <Code maxW="full" fontSize="xs">
-                  {user.id}
+                  {user?.id}
                 </Code>
               </DataListCell>
               <DataListCell colName="login" colWidth={2}>
                 <HStack maxW="100%">
-                  <Avatar size="sm" name={user.login} mx="1" />
+                  <Avatar size="sm" name={user?.name} mx="1" />
                   <Box minW="0">
                     <Text noOfLines={1} maxW="full" fontWeight="bold">
-                      <LinkOverlay as={Link} to={user.login}>
-                        {user.login}
+                      <LinkOverlay as={Link} to={user?.id}>
+                        {user?.name}
                       </LinkOverlay>
                     </Text>
                     <Text
@@ -280,14 +311,14 @@ export const PageUsers = () => {
                       color="gray.600"
                       _dark={{ color: 'gray.300' }}
                     >
-                      {user.email}
+                      {user?.email}
                     </Text>
                   </Box>
                 </HStack>
               </DataListCell>
               <DataListCell colName="authorities">
                 <Wrap>
-                  {user.authorities?.map((authority) => (
+                  {user?.authorities?.map((authority) => (
                     <WrapItem key={authority}>
                       <Badge size="sm">{authority}</Badge>
                     </WrapItem>
@@ -301,7 +332,7 @@ export const PageUsers = () => {
                 pointerEvents="none"
               >
                 <Text noOfLines={1} maxW="full">
-                  {user.createdBy}
+                  {user?.createdBy}
                 </Text>
                 {!!user?.createdAt && (
                   <Text
@@ -322,7 +353,7 @@ export const PageUsers = () => {
                 pointerEvents="none"
               >
                 <Text noOfLines={1} maxW="full">
-                  {user.lastModifiedBy}
+                  {user?.lastModifiedBy}
                 </Text>
                 {!!user?.updatedAt && (
                   <Text
@@ -337,7 +368,7 @@ export const PageUsers = () => {
                 )}
               </DataListCell>
               <DataListCell colName="status">
-                <UserStatus isActivated={user.activated} />
+                <UserStatus isActivated={user?.activated} />
               </DataListCell>
               <DataListCell colName="actions">
                 <UserActions user={user} />
@@ -346,7 +377,7 @@ export const PageUsers = () => {
           ))}
           <DataListFooter>
             <Pagination
-              isLoadingPage={users.isLoadingPage}
+              isLoadingPage={users?.isLoadingPage}
               setPage={setPage}
               page={page}
               pageSize={pageSize}

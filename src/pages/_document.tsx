@@ -1,9 +1,9 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import { Html, Head, Main, NextScript } from 'next/document';
 
 import i18n from '@/src/config/i18next';
 import { AVAILABLE_LANGUAGES } from '@/src/constants/i18next';
-import NextDocument from 'next/document'
-import theme from '@/src/theme'
+import NextDocument from 'next/document';
+import theme from '@/src/theme';
 import { ColorModeScript } from '@chakra-ui/react';
 
 export default class Document extends NextDocument {
@@ -16,7 +16,9 @@ export default class Document extends NextDocument {
           'ltr'
         }
       >
-        <Head />
+        <Head>
+          <link rel="icon" type="image/x-icon" href="/logo.ico" />
+        </Head>
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <Main />

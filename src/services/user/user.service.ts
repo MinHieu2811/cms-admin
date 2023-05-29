@@ -38,7 +38,7 @@ export const useUserList = (
   const result = useQuery(
     usersKeys.users({ page, size }).queryKey,
     (): Promise<UserList> =>
-      axiosInstace.get(USERS_BASE_URL).then((res) => res?.data),
+      axiosInstace.get(USERS_BASE_URL, { params: {size, page, sort: 'id,desc'}}).then((res) => res?.data),
     { keepPreviousData: true, ...config }
   );
 
@@ -89,4 +89,21 @@ export const useUserUpdate = (
       }
     },
   });
+};
+
+type UserWithLoginOnly = Pick<User, 'id'>;
+
+export const useUserRemove = (
+  config: UseMutationOptions<void, unknown, UserWithLoginOnly> = {}
+) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (user: UserWithLoginOnly): Promise<void> => axiosInstace.delete(`${USERS_BASE_URL}/${user?.id}`), {
+      ...config,
+      onSuccess: (...args) => {
+        queryClient?.invalidateQueries(usersKeys?.users?._def)
+        config?.onSuccess?.(...args)
+      }
+    }
+  );
 };
