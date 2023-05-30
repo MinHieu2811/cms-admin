@@ -98,7 +98,7 @@ export const useUserRemove = (
 ) => {
   const queryClient = useQueryClient();
   return useMutation(
-    (user: UserWithLoginOnly): Promise<void> => axiosInstace.delete(`${USERS_BASE_URL}/${user?.id}`), {
+    (user: UserWithLoginOnly): Promise<void> => axiosInstace.delete(`${USERS_BASE_URL}/delete/${user?.id}`).then((res) => res?.data), {
       ...config,
       onSuccess: (...args) => {
         queryClient?.invalidateQueries(usersKeys?.users?._def)

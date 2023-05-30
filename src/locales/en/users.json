@@ -9,27 +9,27 @@
   "feedbacks": {
     "activateUserSuccess": {
       "title": "User Activated",
-      "description": "User \"{{login}}\" activated with success"
+      "description": "User \"{{name}}\" activated with success"
     },
     "deactivateUserSuccess": {
       "title": "User Deactivated",
-      "description": "User \"{{login}}\" deactivated with success"
+      "description": "User \"{{name}}\" deactivated with success"
     },
     "activateUserError": {
       "title": "Activation Failed",
-      "description": "Fail to activate \"{{login}}\" user"
+      "description": "Fail to activate \"{{name}}\" user"
     },
     "deactivateUserError": {
       "title": "Deactivation Failed",
-      "description": "Fail to deactivate \"{{login}}\" user"
+      "description": "Fail to deactivate \"{{name}}\" user"
     },
     "deleteUserSuccess": {
       "title": "User deleted",
-      "description": "User \"{{login}}\" deleted with success"
+      "description": "User \"{{name}}\" deleted with success"
     },
     "deleteUserError": {
       "title": "Deletion Failed",
-      "description": "Fail to remove \"{{login}}\" user"
+      "description": "Fail to remove \"{{name}}\" user"
     },
     "loadingUserError": {
       "title": "It seems that we have a problem ",

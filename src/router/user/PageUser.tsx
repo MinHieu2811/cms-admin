@@ -146,17 +146,17 @@ const UserActions = ({ user, ...rest }: UserActionProps) => {
 
   return (
     <Menu isLazy {...rest} placement="left-start">
-      <MenuButton as={ActionsButton} isLoading={isActionsLoading} />
+      <MenuButton as={ActionsButton} isLoading={isActionsLoading || isRemovalLoading} />
       <Portal>
         <MenuList>
           <MenuItem
             as={Link}
-            to={user.login}
+            to={user?.id}
             icon={<Icon icon={FiEdit} fontSize="lg" color="gray.400" />}
           >
             {t('common:actions.edit')}
           </MenuItem>
-          {user.activated ? (
+          {user?.activated ? (
             <MenuItem
               onClick={() => deactivateUser(user?.id)}
               icon={<Icon icon={FiXCircle} fontSize="lg" color="gray.400" />}
