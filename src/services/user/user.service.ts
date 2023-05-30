@@ -58,10 +58,10 @@ export const useUserList = (
 };
 
 export const useUserUpdate = (
-  config: UseMutationOptions<User, AxiosError<UserMutateError>, User> = {}
+  config: UseMutationOptions<User, AxiosError<UserMutateError>, Partial<User>> = {}
 ) => {
   const queryClient = useQueryClient();
-  return useMutation((payload) => axiosInstace.put(USERS_BASE_URL, payload), {
+  return useMutation((payload) => axiosInstace.put(`${USERS_BASE_URL}/update`, payload).then((res) => res?.data), {
     ...config,
     onSuccess: (data, payload, ...rest) => {
       queryClient.cancelQueries(usersKeys?.users?._def);
@@ -76,7 +76,7 @@ export const useUserUpdate = (
               return {
                 ...cachedData,
                 content: (cachedData?.content || [])?.map((user) =>
-                  user?.id === data?.id ? data : user
+                  user?.id === data?.id ? {...user, data} : user
                 ),
               };
             }

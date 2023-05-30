@@ -6,7 +6,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req?.method !== 'GET') {
+  if (req?.method !== 'PUT') {
     return res.status(500).json({
       success: false,
       message: 'Not this method',
@@ -26,36 +26,28 @@ export default async function handler(
         .json({ success: false, message: 'Not authorized' });
     }
 
-    const {size, page, sort} = req?.query
-    const sizeNum = Number(size) | 20
-    const pageNum = Number(page) | 0
-    const sortingOrd = (sort as string)?.split(",")[1] === 'desc' ? 'desc' : 'asc'
+    const { id } = req?.body;
 
-    const userList = await prisma?.user?.findMany({
-      orderBy: {
-        createdAt: sortingOrd,
-      },
-      // skip: sizeNum * (pageNum + 1),
-      take: sizeNum * (pageNum + 1)
-    });
-
-    if (!userList?.length) {
-      return res
-        .status(200)
-        .json({ success: true, message: 'No users found!' });
+    if(id) {
+      delete req.body.id
     }
 
-    res.status(200).json({
-      data: {
-        content: userList,
-        totalItems: userList?.length
+    const updatedInfo = await prisma?.user?.update({
+      where: {
+        id: id || '',
       },
-      success: true
+      data: req?.body,
+    });
+
+    res?.status(200).json({
+      success: true,
+      data: updatedInfo,
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       success: false,
-      message: 'Something went wrong!'
-    })
+      message: 'Something went wrong!',
+    });
   }
 }

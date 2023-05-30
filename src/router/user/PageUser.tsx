@@ -76,19 +76,19 @@ const UserActions = ({ user, ...rest }: UserActionProps) => {
   const toastError = useToastError();
 
   const userUpdate = useUserUpdate({
-    onSuccess: ({ activated, login }) => {
+    onSuccess: ({ activated, name }) => {
       if (activated) {
         toastSuccess({
           title: t('users:feedbacks.activateUserSuccess.title'),
           description: t('users:feedbacks.activateUserSuccess.description', {
-            login,
+            name,
           }),
         });
       } else {
         toastSuccess({
           title: t('users:feedbacks.deactivateUserSuccess.title'),
           description: t('users:feedbacks.deactivateUserSuccess.description', {
-            login,
+            name,
           }),
         });
       }
@@ -113,11 +113,11 @@ const UserActions = ({ user, ...rest }: UserActionProps) => {
   });
 
   const activateUser = useCallback(
-    () => userUpdate.mutate({ ...user, activated: true }),
+    (id: string) => userUpdate.mutate({ id, activated: true }),
     []
   );
   const deactivateUser = useCallback(
-    () => userUpdate.mutate({ ...user, activated: false }),
+    (id: string) => userUpdate.mutate({ id, activated: false }),
     []
   );
   const isActionsLoading = userUpdate.isLoading;
@@ -158,14 +158,14 @@ const UserActions = ({ user, ...rest }: UserActionProps) => {
           </MenuItem>
           {user.activated ? (
             <MenuItem
-              onClick={deactivateUser}
+              onClick={() => deactivateUser(user?.id)}
               icon={<Icon icon={FiXCircle} fontSize="lg" color="gray.400" />}
             >
               {t('common:actions.deactivate')}
             </MenuItem>
           ) : (
             <MenuItem
-              onClick={activateUser}
+              onClick={() => activateUser(user?.id)}
               icon={
                 <Icon icon={FiCheckCircle} fontSize="lg" color="gray.400" />
               }
