@@ -207,7 +207,7 @@ export const PageUsers = () => {
               display={{ base: 'none', sm: 'flex' }}
               as={Link}
               to="create"
-              variant="@primary"
+              variant="solid"
               leftIcon={<FiPlus />}
             >
               {t('users:list.actions.createUser')}
@@ -218,7 +218,7 @@ export const PageUsers = () => {
               as={Link}
               to="create"
               size="sm"
-              variant="@primary"
+              variant="solid"
               icon={<FiPlus />}
             />
           </Box>
