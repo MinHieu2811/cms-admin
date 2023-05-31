@@ -40,7 +40,7 @@ export const MainApp = () => {
                     </ErrorBoundary>
                   }
                 />
-                <Route path="admin" element={<AdminRoutes />} />
+                <Route path="admin/*" element={<AdminRoutes />} />
                 <Route path="register" element={<PageRegister />} />
                 <Route path="*" element={<ErrorPage errorCode={404} />} />
               </Route>

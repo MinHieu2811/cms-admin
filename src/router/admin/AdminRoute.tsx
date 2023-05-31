@@ -12,12 +12,10 @@ const AdminUsersRoutes = React.lazy(
 const AdminRoutes = () => {
   return (
     <Routes>
-      <Route path="/">
-        <Route index element={<AdminUsersRoutes />} />
-        {/* <Route path="users/*" element={<AdminUsersRoutes />} />
-      <Route path="api/*" element={<PageApiDocumentation />} /> */}
+        <Route path='/' element={<Navigate to="users" replace/>} />
+        <Route path="users/*" element={<AdminUsersRoutes />} />
+      {/* <Route path="api/*" element={<PageApiDocumentation />} /> */}
         <Route path="*" element={<ErrorPage errorCode={404} />} />
-      </Route>
     </Routes>
   );
 };
