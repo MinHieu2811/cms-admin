@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Checkbox, CheckboxGroup, Stack } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 import {
   isEmail,
   isMaxLength,
@@ -17,11 +17,7 @@ import {
   DEFAULT_LANGUAGE_KEY,
 } from '@/src/constants/i18next';
 import { RolesSystem } from '@/src/constants';
-
-const AUTHORITIES = {
-  ADMIN: 'ROLE_ADMIN',
-  USER: 'ROLE_USER',
-};
+import { FieldCheckboxes } from '../FieldCheckboxes';
 
 export const UserForm = () => {
   const { t } = useTranslation(['common', 'users']);
@@ -37,31 +33,34 @@ export const UserForm = () => {
       _dark={{ bg: 'gray.900' }}
       p="6"
     >
+      <Stack direction={{ base: 'column', sm: 'row' }} spacing="6">
+        <FieldInput
+          name="name"
+          label={t('users:data.username.label')}
+          required={t('users:data.username.required') as string}
+        />
+      </Stack>
       <FieldInput
-        name="login"
-        label={t('users:data.login.label')}
-        required={t('users:data.login.required') as string}
+        name="hashedPassword"
+        label={t('users:data.password.label')}
+        required={t('users:data.password.required') as string}
         validations={[
           {
             rule: isMinLength(2),
-            message: t('users:data.login.tooShort', { min: 2 }) as string,
+            message: t('users:data.password.tooShort', { min: 8 }) as string,
           },
           {
             rule: isMaxLength(50),
-            message: t('users:data.login.tooLong', { max: 50 }) as string,
+            message: t('users:data.password.tooLong', { max: 50 }) as string,
           },
           {
             rule: isPattern(
-              '^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$'
+              '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.-_*])([a-zA-Z0-9@#$%^&+=*.-_]){8,}$'
             ),
-            message: t('users:data.login.invalid') as string,
+            message: t('users:data.password.invalid') as string,
           },
         ]}
       />
-      <Stack direction={{ base: 'column', sm: 'row' }} spacing="6">
-        <FieldInput name="firstName" label={t('users:data.firstname.label')} />
-        <FieldInput name="lastName" label={t('users:data.lastname.label')} />
-      </Stack>
       <FieldInput
         name="email"
         label={t('users:data.email.label')}
@@ -72,8 +71,8 @@ export const UserForm = () => {
             message: t('users:data.email.tooShort', { min: 5 }) as string,
           },
           {
-            rule: isMaxLength(254),
-            message: t('users:data.email.tooLong', { min: 254 }) as string,
+            rule: isMaxLength(100),
+            message: t('users:data.email.tooLong', { max: 100 }) as string,
           },
           {
             rule: isEmail(),
@@ -90,13 +89,14 @@ export const UserForm = () => {
         }))}
         defaultValue={DEFAULT_LANGUAGE_KEY}
       />
-      <CheckboxGroup colorScheme="green" defaultValue={['naruto', 'kakashi']}>
-        <Stack spacing={[1, 5]} direction={['column', 'row']}>
-          {authorities?.map((item: string) => (
-            <Checkbox value={item}>Naruto</Checkbox>
-          ))}
-        </Stack>
-      </CheckboxGroup>
+      <FieldCheckboxes
+        name="authorities"
+        label={t('users:data.authorities.label')}
+        options={Object.values(RolesSystem).map((value) => ({
+          value,
+        }))}
+        required={t('users:data.authorities.required') as string}
+      />
     </Stack>
   );
 };

@@ -31,11 +31,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     })
 
-    if(user) {
+    if(user?.length) {
       res?.status(500)?.json({
         success: false,
         message: 'This email has already exist!'
       })
+      return
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);

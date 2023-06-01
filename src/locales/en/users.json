@@ -37,13 +37,19 @@
     }
   },
   "data": {
-    "login": {
+    "username": {
       "alreadyUsed": "Username already used",
       "label": "Username",
       "required": "Username is required",
       "tooShort": "Username is too short (min. {{min}} characters)",
       "tooLong": "Username is too long (max. {{max}} characters)",
       "invalid": "Username is invalid, don't use special characters"
+    },
+    "password": {
+      "label": "Password",
+      "required": "Password is required",
+      "tooShort": "Password is too short (min. {{min}} characters)",
+      "invalid": "Password is invalid, password has a minimum of 8 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number with no spaces."
     },
     "email": {
       "label": "Email",
@@ -70,12 +76,6 @@
       "label": "Status",
       "activated": "Activated",
       "deactivated": "Not Activated"
-    },
-    "firstname": {
-      "label": "First Name"
-    },
-    "lastname": {
-      "label": "Last Name"
     },
     "language": {
       "label": "Language"
