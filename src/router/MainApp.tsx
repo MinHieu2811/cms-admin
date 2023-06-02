@@ -22,28 +22,27 @@ export const MainApp = () => {
         <Layout>
           <Suspense fallback={<Loader />}>
             <Routes>
-              <Route path="/">
-                <Route
-                  index
-                  element={
-                    <AuthenticatedRouteGuard>
-                      <LazyDashboardRoute />
-                    </AuthenticatedRouteGuard>
-                  }
-                />
-                <Route path="login" element={<PageLogin />} />
-                <Route
-                  path="logout"
-                  element={
-                    <ErrorBoundary>
-                      <PageLogout />
-                    </ErrorBoundary>
-                  }
-                />
-                <Route path="admin/*" element={<AdminRoutes />} />
-                <Route path="register" element={<PageRegister />} />
-                <Route path="*" element={<ErrorPage errorCode={404} />} />
-              </Route>
+              <Route path='/' element={<Navigate to="dashboard" />} />
+              <Route
+                path="dashboard/*"
+                element={
+                  <AuthenticatedRouteGuard>
+                    <LazyDashboardRoute />
+                  </AuthenticatedRouteGuard>
+                }
+              />
+              <Route path="login" element={<PageLogin />} />
+              <Route
+                path="logout"
+                element={
+                  <ErrorBoundary>
+                    <PageLogout />
+                  </ErrorBoundary>
+                }
+              />
+              <Route path="admin/*" element={<AdminRoutes />} />
+              <Route path="register" element={<PageRegister />} />
+              <Route path="*" element={<ErrorPage errorCode={404} />} />
             </Routes>
           </Suspense>
         </Layout>
