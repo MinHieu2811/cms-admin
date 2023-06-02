@@ -62,7 +62,8 @@ export const useAccount = (
     accountKeys.account.queryKey,
     async (): Promise<Account> => {
       setLoading(true);
-      const res = await axiosInstace.get('/api/auth/account')
+      const res = await axiosInstace
+        .get('/api/auth/account')
         ?.then((res) => res?.data)
         ?.catch((err) => console.error(err))
         .finally(() => {
@@ -85,4 +86,24 @@ export const useAccount = (
 
   const isAdmin = !!account?.authorities?.includes(ROLE_ADMIN);
   return { isAdmin, account, ...rest, loading };
+};
+
+export const useUpdateAccount = (
+  config: UseMutationOptions<Account, AxiosError<TODO>, Partial<Account>> = {}
+) => {
+  const { i18n } = useTranslation();
+  return useMutation(
+    (account): Promise<Account> =>
+      axiosInstace.put('/account', account).then((res) => res?.data),
+    {
+      onMutate: (data) => {
+        i18n.changeLanguage(data?.langKey);
+
+        if (config?.onMutate) {
+          config.onMutate(data);
+        }
+      },
+      ...config,
+    }
+  );
 };

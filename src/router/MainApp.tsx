@@ -9,6 +9,7 @@ import React from 'react';
 import { PageRegister } from '../auth/register/RegisterPage';
 import { ErrorPage } from './dashboard/ErrorPage';
 import AdminRoutes from './admin/AdminRoute';
+import AccountRoutes from './account/AccountRoute';
 
 const LazyDashboardRoute = React.lazy(
   () => import('@/src/router/dashboard/DashboardRoutes')
@@ -40,6 +41,7 @@ export const MainApp = () => {
                   </ErrorBoundary>
                 }
               />
+              <Route path='account/*' element={<AccountRoutes />} />
               <Route path="admin/*" element={<AdminRoutes />} />
               <Route path="register" element={<PageRegister />} />
               <Route path="*" element={<ErrorPage errorCode={404} />} />

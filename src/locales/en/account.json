@@ -71,13 +71,9 @@
     }
   },
   "data": {
-    "firstname": {
-      "label": "First Name",
-      "required": "First name is required"
-    },
-    "lastname": {
-      "label": "Last Name",
-      "required": "Last name is required"
+    "username": {
+      "label": "Username",
+      "required": "Username is required"
     },
     "email": {
       "label": "Email",
