@@ -9,9 +9,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req?.method !== 'POST') {
-    res.status(500).json('Not this method');
+    return res.status(500).json('Not this method');
   }
-  const cookies = new Cookies(req, res);
+  try {
+    const cookies = new Cookies(req, res);
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -28,6 +29,10 @@ export default async function handler(
 
   if (!userDetail || !userDetail?.hashedPassword) {
     res?.status(404).json({ message: 'User not found!', success: false });
+  }
+
+  if(!userDetail?.activated) {
+    res?.status(400).json({ message: 'This account is deactivated!', success: false });
   }
 
   const isCorrectPassword = await bcrypt.compare(
@@ -70,4 +75,10 @@ export default async function handler(
       accessToken: accessToken,
     },
   });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error
+    })
+  }
 }

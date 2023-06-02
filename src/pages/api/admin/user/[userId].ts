@@ -1,9 +1,8 @@
 import jwtDecode from "jwt-decode";
 import { NextApiRequest, NextApiResponse } from "next";
-import bcrypt from 'bcrypt';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if(req?.method !== 'POST') {
+  if(req?.method !== 'GET') {
     return res.status(500).json({
       success: false,
       message: 'Not this method!'
@@ -23,43 +22,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         .json({ success: false, message: 'Not authorized' });
     }
 
-    const {email, hashedPassword: password, langKey, authorities, name} = req?.body
+    const { userId } = req.query
 
-    const user = await prisma?.user?.findMany({
-      where: {
-        email: email
-      }
-    })
-
-    if(user?.length) {
-      res?.status(500)?.json({
+    if(!userId) {
+      return res.status(404).json({
         success: false,
-        message: 'This email has already exist!'
+        message: 'Invalid ID'
       })
-      return
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    const createdUser = await prisma?.user?.create({
-      data: {
-        name: name,
-        email: email,
-        hashedPassword: hashedPassword,
-        langKey: langKey,
-        activated: false,
-        authorities: authorities
+    const userDetail = await prisma?.user?.findUnique({
+      where: {
+        id: userId as string
       }
     })
 
-    res?.status(200).json({
+    if(!userDetail) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found!'
+      })
+    }
+
+    res.status(200).json({
       success: true,
-      data: createdUser
+      data: userDetail
     })
-  } catch (err) {
+  } catch (error) {
     return res.status(500).json({
       success: false,
-      message: err,
+      message: error,
     });
   }
 }

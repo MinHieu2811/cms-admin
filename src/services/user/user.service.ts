@@ -23,7 +23,7 @@ const USERS_BASE_URL = '/api/admin/user';
 
 const usersKeys = createQueryKeys('usersService', {
   users: (params: { page?: number; size?: number }) => [params],
-  user: (params: { login?: string }) => [params],
+  user: (params: { id?: string }) => [params],
 });
 type UsersKeys = inferQueryKeys<typeof usersKeys>;
 
@@ -96,7 +96,7 @@ export const useUserUpdate = (
           });
         queryClient?.invalidateQueries(usersKeys?.users?._def);
         queryClient?.invalidateQueries(
-          usersKeys.user({ login: payload?.login })
+          usersKeys.user({ id: payload?.id })
         );
         if (config?.onSuccess) {
           config?.onSuccess(data, payload, ...rest);
@@ -150,3 +150,19 @@ export const useUserCreate = (
     }
   );
 };
+
+export const useUser = (userId?: string, config: UseQueryOptions<User, AxiosError, User, UsersKeys['user']['queryKey']> = {}) => {
+  const result = useQuery(
+    usersKeys?.user({ id: userId }).queryKey,
+    (): Promise<User> => axiosInstace.get(`${USERS_BASE_URL}/${userId}`).then((res) => res?.data),
+    {
+      enabled: !!userId,
+      ...config
+    }
+  )
+
+  return {
+    user: result?.data,
+    ...result
+  }
+}

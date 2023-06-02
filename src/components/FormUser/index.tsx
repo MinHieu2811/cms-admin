@@ -19,10 +19,15 @@ import {
 import { RolesSystem } from '@/src/constants';
 import { FieldCheckboxes } from '../FieldCheckboxes';
 
-export const UserForm = () => {
+interface UserFormProps {
+  containPassword?: boolean;
+}
+
+export const UserForm: React.FC<UserFormProps> = ({
+  containPassword = true,
+}) => {
   const { t } = useTranslation(['common', 'users']);
 
-  const authorities = Object.keys(RolesSystem).map((value) => value);
   return (
     <Stack
       direction="column"
@@ -40,27 +45,29 @@ export const UserForm = () => {
           required={t('users:data.username.required') as string}
         />
       </Stack>
-      <FieldInput
-        name="hashedPassword"
-        label={t('users:data.password.label')}
-        required={t('users:data.password.required') as string}
-        validations={[
-          {
-            rule: isMinLength(2),
-            message: t('users:data.password.tooShort', { min: 8 }) as string,
-          },
-          {
-            rule: isMaxLength(50),
-            message: t('users:data.password.tooLong', { max: 50 }) as string,
-          },
-          {
-            rule: isPattern(
-              '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.-_*])([a-zA-Z0-9@#$%^&+=*.-_]){8,}$'
-            ),
-            message: t('users:data.password.invalid') as string,
-          },
-        ]}
-      />
+      {containPassword && (
+        <FieldInput
+          name="hashedPassword"
+          label={t('users:data.password.label')}
+          required={t('users:data.password.required') as string}
+          validations={[
+            {
+              rule: isMinLength(2),
+              message: t('users:data.password.tooShort', { min: 8 }) as string,
+            },
+            {
+              rule: isMaxLength(50),
+              message: t('users:data.password.tooLong', { max: 50 }) as string,
+            },
+            {
+              rule: isPattern(
+                '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.-_*])([a-zA-Z0-9@#$%^&+=*.-_]){8,}$'
+              ),
+              message: t('users:data.password.invalid') as string,
+            },
+          ]}
+        />
+      )}
       <FieldInput
         name="email"
         label={t('users:data.email.label')}

@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 
 import { useRtl } from '@/src/hooks/useRtl';
-// import { useAccount } from '@/spa/account/account.service';
 import { useLayoutContext } from '@/src/components/layout';
 import { useAccount } from '@/src/services/account/account.service';
 
@@ -67,7 +66,7 @@ export const MainMenu = ({ ...rest }) => {
   const { isAdmin } = useAccount();
   return (
     <Stack direction="row" spacing="1" {...rest}>
-      <MainMenuItem to="/">
+      <MainMenuItem to="/dashboard">
         {t('layout:mainMenu.dashboard')}
       </MainMenuItem>
       {isAdmin && (
