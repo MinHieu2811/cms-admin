@@ -234,7 +234,7 @@ export const PageUsers = () => {
               {t('users:data.id.label')}
             </DataListCell>
             <DataListCell colName="login" colWidth="2">
-              {t('users:data.login.label')} / {t('users:data.email.label')}
+              {t('users:data.username.label')} / {t('users:data.email.label')}
             </DataListCell>
             <DataListCell
               colName="authorities"

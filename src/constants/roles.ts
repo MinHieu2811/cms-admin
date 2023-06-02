@@ -1,6 +1,7 @@
-export const ROLE_ADMIN = 'ROLE_ADMIN'
-export const ROLE_USER = 'ROLE_USER'
-
+export const ROLE_ADMIN = 'ADMIN'
+export const ROLE_USER = 'USER'
+export const PRODUCT = 'CONTENT MANAGER'
+export const ORDER = 'ORDER MANAGER'
 export enum RolesSystem {
   ADMIN = 'ADMIN',
   USER = 'USER',
