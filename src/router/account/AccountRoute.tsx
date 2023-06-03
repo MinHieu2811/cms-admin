@@ -9,6 +9,7 @@ import {
   AuthenticatedRouteGuard,
   // PublicOnlyRouteGuard,
 } from '@/src/router/guard';
+import { PagePassword } from './PagePassword';
 
 const AccountRoutes = () => {
   return (
@@ -21,7 +22,7 @@ const AccountRoutes = () => {
           </AuthenticatedRouteGuard>
         }
       />
-{/* 
+      {/* 
       <Route
         path="register"
         element={
@@ -63,14 +64,14 @@ const AccountRoutes = () => {
           </AuthenticatedRouteGuard>
         }
       />
-      {/* <Route
+      <Route
         path="password"
         element={
           <AuthenticatedRouteGuard>
             <PagePassword />
           </AuthenticatedRouteGuard>
         }
-      /> */}
+      />
 
       <Route path="*" element={<ErrorPage errorCode={404} />} />
     </Routes>

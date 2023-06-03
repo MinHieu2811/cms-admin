@@ -44,12 +44,11 @@ export const PageProfile = () => {
   });
 
   const submitGeneralInformation = async (values: TODO) => {
-    const newAccount = {
-      ...account,
-      ...values,
-    };
-
-    await updateAccount.mutate(newAccount);
+    const payload = {
+      id: account?.id,
+      ...values
+    }
+    await updateAccount.mutate(payload);
   };
 
   return (

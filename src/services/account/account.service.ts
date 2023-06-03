@@ -94,7 +94,7 @@ export const useUpdateAccount = (
   const { i18n } = useTranslation();
   return useMutation(
     (account): Promise<Account> =>
-      axiosInstace.put('/account', account).then((res) => res?.data),
+      axiosInstace.put('/api/profile/update', account).then((res) => res?.data),
     {
       onMutate: (data) => {
         i18n.changeLanguage(data?.langKey);
@@ -103,6 +103,21 @@ export const useUpdateAccount = (
           config.onMutate(data);
         }
       },
+      ...config,
+    }
+  );
+};
+
+export const useUpdatePassword = (
+  config: UseMutationOptions<
+    void,
+    AxiosError<TODO>,
+    { currentPassword: string; newPassword: string }
+  > = {}
+) => {
+  return useMutation(
+    (payload): Promise<void> => axiosInstace.put('/api/profile/update-password', payload),
+    {
       ...config,
     }
   );

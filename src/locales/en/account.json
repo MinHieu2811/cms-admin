@@ -100,7 +100,8 @@
     },
     "newPassword": {
       "label": "New Password",
-      "required": "New Password is required"
+      "required": "New Password is required",
+      "invalid": "Password is invalid, password has a minimum of 8 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number with no spaces."
     },
     "confirmNewPassword": {
       "label": "Confirm New Password",
