@@ -6,10 +6,11 @@ import { ErrorPage } from '@/src/router/dashboard/ErrorPage';
 import { PageProfile } from '@/src/router/account/ProfilePage';
 
 import {
-  AuthenticatedRouteGuard,
+  AuthenticatedRouteGuard, PublicOnlyRouteGuard,
   // PublicOnlyRouteGuard,
 } from '@/src/router/guard';
 import { PagePassword } from './PagePassword';
+import { PageResetPasswordRequest } from './PageRequestPassword';
 
 const AccountRoutes = () => {
   return (
@@ -22,23 +23,14 @@ const AccountRoutes = () => {
           </AuthenticatedRouteGuard>
         }
       />
-      {/* 
-      <Route
-        path="register"
-        element={
-          <PublicOnlyRouteGuard>
-            <PageRegister />
-          </PublicOnlyRouteGuard>
-        }
-      />
-      <Route
+      {/* <Route
         path="activate"
         element={
           <PublicOnlyRouteGuard>
             <PageActivate />
           </PublicOnlyRouteGuard>
         }
-      />
+      /> */}
       <Route
         path="reset"
         element={
@@ -47,7 +39,7 @@ const AccountRoutes = () => {
           </PublicOnlyRouteGuard>
         }
       />
-      <Route
+      {/* <Route
         path="reset/finish"
         element={
           <PublicOnlyRouteGuard>

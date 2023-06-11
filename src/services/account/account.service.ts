@@ -122,3 +122,17 @@ export const useUpdatePassword = (
     }
   );
 };
+
+export const useResetPasswordInit = (
+  config: UseMutationOptions<void, AxiosError<TODO>, string> = {}
+) => {
+  return useMutation(
+    (email): Promise<void> =>
+      axiosInstace.post('/account/reset-password/init', email, {
+        headers: { 'Content-Type': 'text/plain' },
+      }),
+    {
+      ...config,
+    }
+  );
+};

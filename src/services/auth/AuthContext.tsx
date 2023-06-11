@@ -1,8 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { isBrowser } from '@/src/utils/checkBrowser';
-import axios from 'axios';
-import { Account } from '@/src/types/account.types';
 
 type AuthContextValue = {
   isAuthenticated: boolean;

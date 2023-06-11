@@ -18,7 +18,6 @@ const handleRefetchToken = async () => {
   try {
     return await Axios.get('/api/auth/refresh')?.then((res) => res?.data);
   } catch (error: any) {
-    console.log(error);
     throw new Error(error);
   }
 };
