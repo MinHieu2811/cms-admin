@@ -16,7 +16,7 @@ export default async function handler(
     const { email, password } = req.body;
 
     if (!email || !password) {
-      res
+      return res
         ?.status(500)
         .json({ message: 'Check your credentials', success: false });
     }
@@ -28,7 +28,7 @@ export default async function handler(
     });
 
     if (!userDetail || !userDetail?.hashedPassword) {
-      res?.status(404).json({ message: 'User not found!', success: false });
+      return res?.status(404).json({ message: 'User not found!', success: false });
     }
 
     if (!userDetail?.activated) {
@@ -73,7 +73,7 @@ export default async function handler(
 
     cookies.set('refresh_token', refreshToken, { httpOnly: false });
 
-    res?.status(200).json({
+    return res?.status(200).json({
       success: true,
       data: {
         accessToken: accessToken,

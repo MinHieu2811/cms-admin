@@ -32,7 +32,7 @@ const AccountRoutes = () => {
         }
       /> */}
       <Route
-        path="reset"
+        path="reset-password"
         element={
           <PublicOnlyRouteGuard>
             <PageResetPasswordRequest />

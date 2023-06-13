@@ -18,6 +18,7 @@ model User {
   langKey        String
   hashedPassword String
   authorities    String[]
+  token          String    @default("")
   login          String?
   emailVerified  DateTime?
   createdBy      String?

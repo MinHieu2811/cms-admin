@@ -116,7 +116,8 @@ export const useUpdatePassword = (
   > = {}
 ) => {
   return useMutation(
-    (payload): Promise<void> => axiosInstace.put('/api/profile/update-password', payload),
+    (payload): Promise<void> =>
+      axiosInstace.put('/api/profile/update-password', payload),
     {
       ...config,
     }
@@ -124,13 +125,57 @@ export const useUpdatePassword = (
 };
 
 export const useResetPasswordInit = (
-  config: UseMutationOptions<void, AxiosError<TODO>, string> = {}
+  config: UseMutationOptions<void, AxiosError<TODO>, { email: string }> = {}
 ) => {
   return useMutation(
     (email): Promise<void> =>
-      axiosInstace.post('/account/reset-password/init', email, {
-        headers: { 'Content-Type': 'text/plain' },
-      }),
+      axiosInstace.post(
+        '/api/profile/reset-mail',
+        { email: email },
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      ),
+    {
+      ...config,
+    }
+  );
+};
+
+export const useResetCodeInit = (
+  config: UseMutationOptions<void, AxiosError<TODO>, { code: string }> = {}
+) => {
+  return useMutation(
+    (code): Promise<void> =>
+      axiosInstace.post(
+        '/api/profile/validate-code',
+        { code: code },
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      ),
+    {
+      ...config,
+    }
+  );
+};
+
+export const useResetPass = (
+  config: UseMutationOptions<
+    void,
+    AxiosError<TODO>,
+    { email: string, oldPassword: string; newPassword: string }
+  > = {}
+) => {
+  return useMutation(
+    ({ email, newPassword, oldPassword }): Promise<void> =>
+      axiosInstace.post(
+        '/api/profile/reset-password',
+        { email, newPassword, oldPassword },
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      ),
     {
       ...config,
     }

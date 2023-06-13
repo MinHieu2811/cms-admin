@@ -10,7 +10,7 @@ import { FieldInput } from '../FieldInput';
 import { useLogin } from '@/src/services/auth/login.service';
 
 interface LoginFormProps extends BoxProps {
-  onSuccess: () => void
+  onSuccess: () => void;
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({
@@ -54,7 +54,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           <Flex>
             <Button
               as={RouterLink}
-              to="/account/reset"
+              to="/account/reset-password"
               size="sm"
               variant="link"
               whiteSpace="initial"

@@ -57,6 +57,35 @@
       }
     }
   },
+  "resetCode": {
+    "label": "Code",
+    "textHelper": "Type your reset code from your email",
+    "title": "Reset password code",
+    "actions": {
+      "cancel": "Back",
+      "send": "Send Code",
+      "goToLogin": "Go to Login",
+      "reset": "Reset Password"
+    }
+  },
+  "resetPasswordModal": {
+    "title": "Reset Password",
+    "send": "Reset password",
+    "success": {
+      "title": "Success",
+      "description": "Your password is updated! Please login again"
+    },
+    "oldPassword": {
+      "label": "Old password",
+      "resetHelper": "Enter your old password",
+      "required": "Old password is required"
+    },
+    "newPassword": {
+      "label": "New password",
+      "resetHelper": "Enter your new password",
+      "required": "New password is required"
+    }
+  },
   "activate": {
     "feedbacks": {
       "activationLoading": {

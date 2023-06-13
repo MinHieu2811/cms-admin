@@ -8,6 +8,7 @@ export type User = {
   hashedPassword: string;
   langKey: string;
   authorities: UserRole[];
+  token?: string
   login?: string;
   emailVerified?: Date;
   createdBy?: string;
