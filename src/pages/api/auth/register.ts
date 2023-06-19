@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
+import { RolesSystem } from '@/src/constants';
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,7 +20,7 @@ export default async function handler(
       hashedPassword: hashedPassword,
       langKey: langKey,
       activated: false,
-      authorities: ['ROLE_USER'],
+      authorities: [RolesSystem?.USER],
       login: password,
     },
   });
