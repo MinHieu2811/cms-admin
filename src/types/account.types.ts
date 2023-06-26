@@ -1,4 +1,4 @@
-export type UserRole = 'ADMIN' | 'USER';
+import { RolesSystem } from "../constants";
 
 export type User = {
   id: string;
@@ -7,7 +7,7 @@ export type User = {
   activated: boolean;
   hashedPassword: string;
   langKey: string;
-  authorities: UserRole[];
+  authorities: RolesSystem[];
   token?: string
   login?: string;
   emailVerified?: Date;

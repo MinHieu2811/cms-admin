@@ -7,4 +7,5 @@ export enum RolesSystem {
   USER = 'USER',
   PRODUCT = 'CONTENT MANAGER',
   ORDER = 'ORDER MANAGER',
+  HR = 'HUMAN RESOURCES'
 }

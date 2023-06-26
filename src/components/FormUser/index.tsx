@@ -99,9 +99,12 @@ export const UserForm: React.FC<UserFormProps> = ({
       <FieldCheckboxes
         name="authorities"
         label={t('users:data.authorities.label')}
-        options={Object.values(RolesSystem).map((value) => ({
-          value,
-        }))}
+        options={(Object.values(RolesSystem)).map(
+          (value) => ({
+            label: value,
+            value: value,
+          })
+        )}
         required={t('users:data.authorities.required') as string}
       />
     </Stack>

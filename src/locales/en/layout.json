@@ -1,7 +1,10 @@
 {
   "mainMenu": {
     "dashboard": "Dashboard",
-    "admin": "Admin"
+    "admin": "Admin",
+    "product": "Product",
+    "order": "Order",
+    "user": "Human Resources"
   },
   "accountMenu": {
     "version": {

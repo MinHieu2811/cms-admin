@@ -141,12 +141,15 @@ const UserActions = ({ user, ...rest }: UserActionProps) => {
     },
   });
 
-  const removeUser = () => userRemove?.mutate(user)
-  const isRemovalLoading = userRemove?.isLoading
+  const removeUser = () => userRemove?.mutate(user);
+  const isRemovalLoading = userRemove?.isLoading;
 
   return (
     <Menu isLazy {...rest} placement="left-start">
-      <MenuButton as={ActionsButton} isLoading={isActionsLoading || isRemovalLoading} />
+      <MenuButton
+        as={ActionsButton}
+        isLoading={isActionsLoading || isRemovalLoading}
+      />
       <Portal>
         <MenuList>
           <MenuItem
@@ -196,7 +199,7 @@ export const PageUsers = () => {
   });
 
   return (
-    <Page containerSize="xl" nav={<AdminNav />}>
+    <Page containerSize="full">
       <PageContent>
         <HStack mb="4">
           <Box flex="1">
@@ -233,11 +236,12 @@ export const PageUsers = () => {
             >
               {t('users:data.id.label')}
             </DataListCell>
-            <DataListCell colName="login" colWidth="2">
+            <DataListCell colName="login" colWidth="1">
               {t('users:data.username.label')} / {t('users:data.email.label')}
             </DataListCell>
             <DataListCell
               colName="authorities"
+              colWidth="2"
               isVisible={{ base: false, lg: true }}
             >
               {t('users:data.authorities.label')}
@@ -324,6 +328,9 @@ export const PageUsers = () => {
                     </WrapItem>
                   ))}
                 </Wrap>
+                {/* <Tooltip label={user?.authorities?.join(', ')}>
+                  <Badge><span tabIndex={0}>{user?.authorities[0]}</span></Badge>
+                </Tooltip> */}
               </DataListCell>
               <DataListCell
                 colName="created"
