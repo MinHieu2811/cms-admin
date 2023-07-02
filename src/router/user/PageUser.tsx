@@ -18,7 +18,6 @@ import {
 import { DateAgo } from '@/src/components/TimeAgo';
 import { useToastError, useToastSuccess } from '@/src/components/Toast';
 import { Page, PageContent } from '@/src/components/layout';
-import { AdminNav } from '@/src/components/layout/AdminNav';
 import { ActionsButton } from '@/src/components/shared/ActionButton';
 import { UserStatus } from '@/src/components/shared/UserStatus';
 import { usePaginationFromUrl } from '@/src/hooks/usePaginationFromUrl';
