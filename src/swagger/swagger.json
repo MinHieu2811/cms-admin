@@ -27,7 +27,10 @@
               }
             }
           }
-        }
+        },
+        "tags": [
+          "Auth"
+        ]
       }
     },
     "/auth/signin": {
@@ -56,7 +59,10 @@
               }
             }
           }
-        }
+        },
+        "tags": [
+          "Auth"
+        ]
       }
     },
     "/users/me": {
@@ -112,7 +118,10 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "tags": [
+          "Bookmark"
+        ]
       }
     },
     "/bookmarks/add": {
@@ -134,7 +143,10 @@
           "201": {
             "description": "The bookmark has been successfully save."
           }
-        }
+        },
+        "tags": [
+          "Bookmark"
+        ]
       }
     }
   },

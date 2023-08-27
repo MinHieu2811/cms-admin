@@ -80,6 +80,102 @@ export class PagedResultDto<T> implements IPagedResult<T> {
 // customer definition
 // empty
 
+export class AuthService {
+  /**
+   * Sign up feature
+   */
+  static signup(
+    params: {
+      /** requestBody */
+      body?: AuthDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<Token> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/auth/signup';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * Sign up feature
+   */
+  static signin(
+    params: {
+      /** requestBody */
+      body?: AuthDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<Token> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/auth/signin';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+      axios(configs, resolve, reject);
+    });
+  }
+}
+
+export class BookmarkService {
+  /**
+   * Get bookmarks
+   */
+  static all(
+    params: {
+      /**  */
+      skip: string;
+      /**  */
+      take: string;
+      /**  */
+      sort: string;
+      /**  */
+      keyword: string;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/bookmarks/all';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      configs.params = { skip: params['skip'], take: params['take'], sort: params['sort'], keyword: params['keyword'] };
+      let data = null;
+
+      configs.data = data;
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * Create bookmarks
+   */
+  static add(
+    params: {
+      /** requestBody */
+      body?: BookmarkDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/bookmarks/add';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+      axios(configs, resolve, reject);
+    });
+  }
+}
+
 export interface AuthDto {
   /** The email of user */
   email: string;
