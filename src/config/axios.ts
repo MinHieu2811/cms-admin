@@ -60,6 +60,7 @@ axiosInstace.interceptors.response.use(
       if (err.response.status === 401 && !originalConfig?._retry) {
         originalConfig._retry = true;
         const accessToken = await handleRefetchToken();
+        // const accessToken = ''
         if (window) window.localStorage.setItem(AUTH_TOKEN_KEY, accessToken);
         Axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 

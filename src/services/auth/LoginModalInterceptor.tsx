@@ -45,8 +45,13 @@ export const LoginModalInterceptor = () => {
       queryCache.cancelQueries();
       openLoginModal();
     }
-    const verifiedToken = decode(cookies?.refresh_token) as JwtRefreshToken;
-    if (verifiedToken?.exp * 1000 < Date.now()) {
+    try {
+      const verifiedToken = decode(cookies?.refresh_token) as JwtRefreshToken;
+      if (verifiedToken?.exp * 1000 < Date.now()) {
+        queryCache.cancelQueries();
+        openLoginModal();
+      }
+    } catch (error) {
       queryCache.cancelQueries();
       openLoginModal();
     }

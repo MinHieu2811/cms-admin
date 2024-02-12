@@ -16,6 +16,10 @@ export default async function handler(
     const cookies = new Cookies(req, res);
     const refreshToken = cookies?.get('refresh_token');
 
+    if(!refreshToken) {
+      return res.status(401).json({ message: 'Unauthorized!' });
+    }
+
     const decoded = jwt?.verify(
       refreshToken || '',
       process.env.NEXTAUTH_SECRET || 'thisisothersecret'
